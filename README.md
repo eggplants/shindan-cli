@@ -38,3 +38,8 @@ optional arguments:
 ## License
 
 MIT
+
+[Release Package]: https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg
+[PyPI]: https://img.shields.io/pypi/v/shindan-cli?color=blue
+[PyPI - Python Version]: https://img.shields.io/pypi/pyversions/shindan-cli
+[Maintainability]: https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/maintainability
