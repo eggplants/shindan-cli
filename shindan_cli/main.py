@@ -1,14 +1,17 @@
 import argparse
-from . import shindan
-from . import __version__
+
+from . import __version__, shindan
+
 
 # type: (Any) -> int
 def check_natural(v):
-    if type(v) is int and int(v) < 0:
+    if int(v) < 0:
         raise argparse.ArgumentTypeError("%s is an invalid natural int" % v)
-    return v
+    else:
+        return int(v)
 
-# type: None -> argparse.Namespace
+
+# type: (None) -> argparse.Namespace
 def parse_args():
     """Parse arguments."""
     parser = argparse.ArgumentParser(
@@ -26,13 +29,19 @@ def parse_args():
         help="shindan name"
     )
     parser.add_argument(
+        "-w", "--wait", action="store_true",
+        help="take random wait"
+    )
+    parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
     )
     return parser.parse_args()
 
+
+# type: (None) -> None
 def main():
     args = parse_args()
-    print(shindan.shindan(args.page_id, args.shindan_name))
+    print(shindan.shindan(args.page_id, args.shindan_name, wait=args.wait))
 
 
 if __name__ == '__main__':

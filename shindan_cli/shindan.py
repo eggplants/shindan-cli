@@ -1,11 +1,11 @@
 import random
 import time
-from typing import Optional
 
-from bs4 import BeautifulSoup as BS
-import requests
+import requests  # type: ignore
+from bs4 import BeautifulSoup as BS  # type: ignore
 
-# type: (int, str, Optional[bool]) -> str
+
+# type: (int, str, optional[bool]) -> str
 def shindan(page_id, shindan_name, wait=False):
     if page_id is int and page_id < 0:
         raise ValueError("invalid page id: %d" % page_id)
@@ -20,5 +20,8 @@ def shindan(page_id, shindan_name, wait=False):
     params['shindanName'] = (shindan_name)
     login = session.post(url, data=params)
     if wait:
-      time.sleep(random.uniform(2, 5))
-    return BS(login.text, features="lxml").find('span', id='shindanResult').text
+        time.sleep(random.uniform(2, 5))
+    soup = BS(login.text, features="lxml").find('span', id='shindanResult')
+    for i in soup.select("br"):  # type: ignore
+        i.replace_with("\n")
+    return soup.text  # type: ignore

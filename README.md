@@ -22,7 +22,7 @@ pip install shindan-cli
 
 ```shellsession
 $ shindan -h
-usage: shindan [-h] [-V] ID NAME
+usage: shindan [-h] [-w] [-V] ID NAME
 
 ShindanMaker (https://shindanmaker.com) CLI
 
@@ -32,7 +32,13 @@ positional arguments:
 
 optional arguments:
   -h, --help     show this help message and exit
+  -w, --wait     take random wait
   -V, --version  show program's version number and exit
+
+$ shindan 1036646
+ねこって、むしだ。
+
+𝙐𝙉𝙄𝙌𝙇𝙊
 ```
 
 ## License
