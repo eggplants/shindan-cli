@@ -54,6 +54,41 @@ shindan.shindan(1036646, 'hoge', wait=False)
 
 MIT
 
+---
+
+## Similar Imprementations
+
+- Go
+  - [kakakaya/goshindan](https://github.com/kakakaya/goshindan)
+    - Library + CLI
+    - <https://pkg.go.dev/github.com/kakakaya/goshindan>
+- Java
+  - [shibafu528/shindan4j](https://github.com/shibafu528/shindan4j)
+    - Library
+    - <https://jitpack.io/#shibafu528/shindan4j>
+- JavaScript
+  - [asawo/shindan-scraper](https://github.com/asawo/shindan-scraper)
+    - Library
+  - [stawberri/shindan](https://github.com/stawberri/shindan)
+    - Library (Archived)
+    - <https://www.npmjs.com/package/shindan>
+- Perl
+  - [Likk/WebService-ShindanMaker](https://github.com/Likk/WebService-ShindanMaker)
+    - Library
+- Python
+  - [Le96/auto_shindanmaker](https://github.com/Le96/auto_shindanmaker)
+    - Bot Server
+  - [tanitanin/shindan-python](https://github.com/tanitanin/shindan-python)
+    - CLI (Script)
+- Ruby
+  - [osak/shindanmaker](https://github.com/osak/shindanmaker)
+    - [Mikutter](https://github.com/mikutter/mikutter) Plugin
+  - [ikaruga777/shindan-cli](https://github.com/ikaruga777/shindan-cli)
+    - CLI
+  - [yasuhito/shindan](https://github.com/yasuhito/shindan)
+    - CLI
+    - <https://rubygems.org/gems/shindan>
+
 [Release Package]: https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg
 [PyPI]: https://img.shields.io/pypi/v/shindan-cli?color=blue
 [PyPI - Python Version]: https://img.shields.io/pypi/pyversions/shindan-cli
