@@ -18,7 +18,7 @@ pip install shindan-cli
 
 ## Usage
 
-## CLI
+### CLI
 
 ```shellsession
 $ shindan -h
