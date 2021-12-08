@@ -58,6 +58,9 @@ MIT
 
 ## Similar Imprementations
 
+- C#
+  - [misodengaku/ShindanMaker](https://github.com/misodengaku/ShindanMaker)
+    - Library
 - Go
   - [kakakaya/goshindan](https://github.com/kakakaya/goshindan)
     - Library + CLI
@@ -75,6 +78,10 @@ MIT
 - Perl
   - [Likk/WebService-ShindanMaker](https://github.com/Likk/WebService-ShindanMaker)
     - Library
+- PHP
+  - [moroya/php-shindanmaker](https://github.com/moroya/php-shindanmaker)
+    - Library
+    - <https://packagist.org/packages/moroya/php-shindanmaker>
 - Python
   - [Le96/auto_shindanmaker](https://github.com/Le96/auto_shindanmaker)
     - Bot Server
@@ -83,11 +90,16 @@ MIT
 - Ruby
   - [osak/shindanmaker](https://github.com/osak/shindanmaker)
     - [Mikutter](https://github.com/mikutter/mikutter) Plugin
+  - [gouf/shindan](https://github.com/gouf/shindan)
+    - Library
   - [ikaruga777/shindan-cli](https://github.com/ikaruga777/shindan-cli)
     - CLI
   - [yasuhito/shindan](https://github.com/yasuhito/shindan)
     - CLI
     - <https://rubygems.org/gems/shindan>
+- TypeScript
+  - [dqn/shindanmaker-js](https://github.com/dqn/shindanmaker-js)
+    - Library
 
 [Release Package]: https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg
 [PyPI]: https://img.shields.io/pypi/v/shindan-cli?color=blue
