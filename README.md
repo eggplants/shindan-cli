@@ -41,7 +41,7 @@ $ shindan 1036646 hoge
 𝙐𝙉𝙄𝙌𝙇𝙊
 ```
 
-## Library
+### Library
 
 ```python
 from shindan_cli import shindan
