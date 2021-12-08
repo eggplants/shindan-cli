@@ -35,10 +35,19 @@ optional arguments:
   -w, --wait     take random wait
   -V, --version  show program's version number and exit
 
-$ shindan 1036646
+$ shindan 1036646 hoge
 ねこって、むしだ。
 
 𝙐𝙉𝙄𝙌𝙇𝙊
+```
+
+## Library
+
+```python
+from shindan_cli import shindan
+# type: (int, str, optional[bool]) -> str
+shindan.shindan(1036646, 'hoge', wait=False)
+#=>'ねこって、むしだ。\n\n𝙐𝙉𝙄𝙌𝙇𝙊'
 ```
 
 ## License
