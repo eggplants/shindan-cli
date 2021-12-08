@@ -1,5 +1,7 @@
 # shindan-cli
 
+ShindanMaker (<https://shindanmaker.com>) CLI
+
 ## Install
 
 ```bash
