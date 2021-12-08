@@ -1,5 +1,13 @@
 # shindan-cli
 
+[![PyPI]](https://pypi.org/project/shindan-cli
+) [![PyPI - Python Version]](https://pypi.org/project/shindan-cli
+)
+
+[![Release Package]](https://github.com/eggplants/shindan-cli/actions/workflows/release.yml
+) [![Maintainability]](https://codeclimate.com/github/eggplants/shindan-cli/maintainability
+)
+
 ShindanMaker (<https://shindanmaker.com>) CLI
 
 ## Install
