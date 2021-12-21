@@ -30,7 +30,7 @@ def parse_args():
     )
     parser.add_argument(
         "-w", "--wait", action="store_true",
-        help="take random wait"
+        help="insert random wait"
     )
     parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
