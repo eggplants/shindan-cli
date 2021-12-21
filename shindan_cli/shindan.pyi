@@ -1,0 +1,3 @@
+from typing import Optional
+
+def shindan(page_id: int, shindan_name: str, wait: Optional[bool] = ...) -> str: ...

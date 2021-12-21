@@ -18,7 +18,7 @@ function _shindan() {
     inputs="$(
         echo -e "$source_" | tr \< \\n | grep input |
         sed -nr '
-        s/value=""/value="'$name'"/
+        s/value=""/value="'"$name"'"/
         s/^.* name="([^"]+)".* value="([^"]+)">$/\1=\2/g
         4,6p' | tr \\n \& | sed 's/.$//'
     )"
