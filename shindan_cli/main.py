@@ -33,6 +33,10 @@ def parse_args():
         help="insert random wait"
     )
     parser.add_argument(
+        "-l", "--link", action="store_true",
+        help="add link to last of output"
+    )
+    parser.add_argument(
         "-V", "--version", action="version", version="%(prog)s {}".format(__version__)
     )
     return parser.parse_args()
@@ -42,6 +46,8 @@ def parse_args():
 def main():
     args = parse_args()
     print(shindan.shindan(args.page_id, args.shindan_name, wait=args.wait))
+    if args.link:
+        print("https://shindanmaker.com/%d" % args.page_id)
 
 
 if __name__ == '__main__':
