@@ -1,4 +1,4 @@
-__version__ = "0.6"
+# from .shindan import shindan
 
-# from .shindan import Shindan
-# __all__ = ['Shindan']
+__version__ = "0.7"
+# __all__ = ["shindan"]
