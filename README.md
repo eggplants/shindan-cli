@@ -60,9 +60,18 @@ https://shindanmaker.com/1036646
 
 ```python
 from shindan_cli import shindan
-# type: (int, str, optional[bool]) -> str
+# type: (int, str, optional[bool]) -> ShindanResults
 shindan.shindan(1036646, 'hoge', wait=False)
-#=>'ねこって、むしだ。\n\n𝙐𝙉𝙄𝙌𝙇𝙊'
+```
+
+Returns:
+
+```python
+{
+  'results': ['ねこって、むしだ。', '', '𝙏𝙊𝙆𝙔𝙊 𝙈𝙀𝙏𝙍𝙊'],
+  'hashtags': ['#shindanmaker'],
+  'shindan_url': 'https://shindanmaker.com/1036646'
+}
 ```
 
 ## License

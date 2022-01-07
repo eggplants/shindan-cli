@@ -23,7 +23,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("shindan_name", metavar="NAME", type=str, help="shindan name")
     parser.add_argument("-w", "--wait", action="store_true", help="insert random wait")
     parser.add_argument(
-        "-H", "--hashtag", action="store_true", help= "add hashtag `#shindanmaker`"
+        "-H", "--hashtag", action="store_true", help="add hashtag `#shindanmaker`"
     )
     parser.add_argument(
         "-l", "--link", action="store_true", help="add link to last of output"
@@ -36,11 +36,12 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    print(shindan.shindan(args.page_id, args.shindan_name, wait=args.wait))
+    result = shindan.shindan(args.page_id, args.shindan_name, wait=args.wait)
+    print("\n".join(result["results"]))
     if args.hashtag:
-        print("#shindanmaker")
+        print(" ".join(result["hashtags"]))
     if args.link:
-        print("https://shindanmaker.com/%d" % args.page_id)
+        print(result["shindan_url"])
 
 
 if __name__ == "__main__":

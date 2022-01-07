@@ -1,3 +1,8 @@
-from typing import Optional
+from typing import List, Optional, TypedDict
 
-def shindan(page_id: int, shindan_name: str, wait: Optional[bool] = ...) -> str: ...
+class ShindanResult(TypedDict):
+    results: List[str]
+    hashtags: List[str]
+    shindan_url: str
+
+def shindan(page_id: int, shindan_name: str, wait: Optional[bool] = ...) -> ShindanResult: ...
