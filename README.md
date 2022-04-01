@@ -61,7 +61,7 @@ https://shindanmaker.com/1036646
 ```python
 from shindan_cli import shindan
 # type: (int, str, optional[bool]) -> ShindanResults
-shindan.shindan(1036646, 'hoge', wait=False)
+shindan(1036646, 'hoge', wait=False)
 ```
 
 Returns:
