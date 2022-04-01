@@ -36,7 +36,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    result = shindan.shindan(args.page_id, args.shindan_name, wait=args.wait)
+    result = shindan(args.page_id, args.shindan_name, wait=args.wait)
     print("\n".join(result["results"]))
     if args.hashtag:
         print(" ".join(result["hashtags"]))
