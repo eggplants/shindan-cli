@@ -1,45 +1,95 @@
+"""Implements the function to get the shindan result from <https://shindanmaker.com>."""
+
+from __future__ import annotations
+
 import random
 import time
-from typing import List, Optional, TypedDict
-from urllib import parse
+from typing import TypedDict
+from urllib.parse import parse_qs, unquote, urlparse
 
 import requests
-from bs4 import BeautifulSoup as BS
+from bs4 import BeautifulSoup, Tag
 
 
 class ShindanResult(TypedDict):
-    results: List[str]
-    hashtags: List[str]
+
+    """TypedDict Class for result of shindan."""
+
+    results: list[str]
+    hashtags: list[str]
     shindan_url: str
 
 
-def shindan(
-    page_id: int, shindan_name: str, wait: Optional[bool] = False
-) -> ShindanResult:
+class ShindanError(Exception):
+
+    """Error class for shindan-cli."""
+
+
+def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> ShindanResult:
+    """Get the shindan result from <https://shindanmaker.com>.
+
+    Parameters
+    ----------
+    page_id : int
+        shindan page id (e.g. `1036646`)
+    shindan_name : str
+        shindan name (e.g. your name)
+    wait : bool | None, optional
+        enable random waits while fetching shindan data, by default False
+
+    Returns
+    -------
+    ShindanResult
+        the returned result from <https://shindanmaker.com>
+
+    Raises
+    ------
+    ShindanError
+    """
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) "
             "Chrome/96.0.4664.45 Safari/537.36"
-        )
+        ),
     }
-    if type(page_id) is int and page_id < 0:
-        raise ValueError("invalid page id: %d" % page_id)
-    url = "https://shindanmaker.com/%d" % page_id
+
+    if not isinstance(page_id, int) or page_id < 0:
+        msg = f"invalid page id: {page_id}"
+        raise ShindanError(msg)
+
+    url = f"https://shindanmaker.com/{page_id}"
+
     session = requests.session()
     s = session.get(url, headers=headers)
-    if s.status_code != 200:
-        raise FileNotFoundError(s.status_code)
-    source = BS(s.text, features="lxml")
+    if s.status_code != requests.codes.ok:
+        raise ShindanError(s.status_code)
+
+    source = BeautifulSoup(s.text, features="lxml")
     params = {i["name"]: i["value"] for i in source.find_all("input")[1:4]}
     params["shindanName"] = shindan_name
+
     login = session.post(url, data=params, headers=headers)
     if wait:
         time.sleep(random.uniform(2, 5))
-    soup = BS(login.text, features="lxml")
-    parsed_url = parse.urlparse(soup.find(class_="flex-fill")["href"])  # type: ignore
-    *val, hashtag, url = parse.unquote(
-        parse.parse_qs(parsed_url.query)["text"][0]
+
+    soup = BeautifulSoup(login.text, features="lxml")
+    result_tag = soup.find(class_="flex-fill")
+
+    if not isinstance(result_tag, Tag) or "href" not in result_tag:
+        msg = f"Could not find a tag contains the result, returns: {result_tag}"
+        raise ShindanError(msg)
+
+    parsed_url = urlparse(str(result_tag["href"]))
+    *results, hashtag, shindan_url = unquote(
+        parse_qs(parsed_url.query)["text"][0],
     ).split("\n")
-    hashtag = hashtag.split(" ")  # type: ignore
-    return {"results": val, "hashtags": hashtag, "shindan_url": url}  # type: ignore
+
+    return {
+        "results": results,
+        "hashtags": hashtag.split(" "),
+        "shindan_url": shindan_url,
+    }
+
+
+__all__ = ("ShindanResult", "shindan")
