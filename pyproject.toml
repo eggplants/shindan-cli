@@ -22,7 +22,7 @@ strict = true
 
 [tool.ruff]
 select = ["ALL"]
-ignore = ["D211", "D213"]
+ignore = ["D203"]
 line-length = 120
 
 [tool.ruff.mccabe]

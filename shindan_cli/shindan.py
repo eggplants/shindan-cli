@@ -12,7 +12,6 @@ from bs4 import BeautifulSoup, Tag
 
 
 class ShindanResult(TypedDict):
-
     """TypedDict Class for result of shindan."""
 
     results: list[str]
@@ -21,7 +20,6 @@ class ShindanResult(TypedDict):
 
 
 class ShindanError(Exception):
-
     """Error class for shindan-cli."""
 
 
