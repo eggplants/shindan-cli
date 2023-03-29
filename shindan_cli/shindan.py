@@ -74,7 +74,7 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
     soup = BeautifulSoup(login.text, features="lxml")
     result_tag = soup.find(class_="flex-fill")
 
-    if not isinstance(result_tag, Tag) or "href" not in result_tag:
+    if not isinstance(result_tag, Tag) or not result_tag.has_attr("href"):
         msg = f"Could not find a tag contains the result, returns: {result_tag}"
         raise ShindanError(msg)
 
@@ -82,6 +82,9 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
     *results, hashtag, shindan_url = unquote(
         parse_qs(parsed_url.query)["text"][0],
     ).split("\n")
+
+    if not results[-1]:
+        results.pop(-1)
 
     return {
         "results": results,
