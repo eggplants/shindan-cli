@@ -1,11 +1,30 @@
 # shindan-cli
 
-[![PyPI]](https://pypi.org/project/shindan-cli
-) [![PyPI - Python Version]](https://pypi.org/project/shindan-cli
+[![Release Package](
+  <https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg>
+)](
+  <https://github.com/eggplants/shindan-cli/actions/workflows/release.yml>
+) [![PyPI](
+    <https://img.shields.io/pypi/v/shindan-cli?color=blue>
+  ) ![PyPI - Python Version](
+    <https://img.shields.io/pypi/pyversions/shindan-cli>
+  )
+](
+  <https://pypi.org/project/shindan-cli>
 )
 
-[![Release Package]](https://github.com/eggplants/shindan-cli/actions/workflows/release.yml
-) [![Maintainability]](https://codeclimate.com/github/eggplants/shindan-cli/maintainability
+[![Test](
+  <https://github.com/eggplants/shindan-cli/actions/workflows/test.yml/badge.svg>
+)](
+  <https://github.com/eggplants/shindan-cli/actions/workflows/test.yml>
+) [![Maintainability](
+  <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/maintainability>
+)](
+  <https://codeclimate.com/github/eggplants/shindan-cli/maintainability>
+) [![Test Coverage](
+  <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/test_coverage>
+)](
+  <https://codeclimate.com/github/eggplants/shindan-cli/test_coverage>
 )
 
 ShindanMaker (<https://shindanmaker.com>) CLI
@@ -124,8 +143,3 @@ MIT
 - TypeScript
   - [dqn/shindanmaker-js](https://github.com/dqn/shindanmaker-js)
     - Library
-
-[Release Package]: https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg
-[PyPI]: https://img.shields.io/pypi/v/shindan-cli?color=blue
-[PyPI - Python Version]: https://img.shields.io/pypi/pyversions/shindan-cli
-[Maintainability]: https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/maintainability
