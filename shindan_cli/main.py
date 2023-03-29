@@ -13,7 +13,7 @@ def _check_natural(v: str) -> int:
     return int(v)
 
 
-def _parse_args() -> argparse.Namespace:
+def _parse_args(*, test: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="shindan",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -25,12 +25,14 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument("-H", "--hashtag", action="store_true", help="add hashtag `#shindanmaker`")
     parser.add_argument("-l", "--link", action="store_true", help="add link to last of output")
     parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {__version__}")
-    return parser.parse_args()
+    if test is None:
+        return parser.parse_args()
+    return parser.parse_args(test)
 
 
-def main() -> None:
+def main(*, test: list[str] | None = None) -> None:
     """Run CLI."""
-    args = _parse_args()
+    args = _parse_args(test=test)
     result = shindan(args.page_id, args.shindan_name, wait=args.wait)
     print("\n".join(result["results"]))  # noqa: T201
     if args.hashtag:

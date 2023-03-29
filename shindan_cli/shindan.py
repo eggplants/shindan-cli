@@ -69,7 +69,7 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
 
     login = session.post(url, data=params, headers=headers)
     if wait:
-        time.sleep(random.uniform(2, 5))
+        time.sleep(random.uniform(2, 5))  # noqa: S311
 
     soup = BeautifulSoup(login.text, features="lxml")
     result_tag = soup.find(class_="flex-fill")

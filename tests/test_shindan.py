@@ -4,7 +4,7 @@ from time import time
 
 import pytest
 
-from shindan_cli import shindan
+from shindan_cli import ShindanError, shindan
 
 test_data: list[tuple[int, int]] = [
     (1036646, 3),  # general
@@ -19,6 +19,12 @@ def test_site_download(page_id: int, lines: int) -> None:
     assert len(res["results"]) == lines, "invalid length of results"
     assert "#shindanmaker" in res["hashtags"], "invalid hashtags"
     assert res["shindan_url"] == f"https://shindanmaker.com/{page_id}", "invalid shindan url"
+
+
+def test_invalid_id() -> None:
+    with pytest.raises(ShindanError) as e:
+        shindan(0, "hoge")
+    assert e.value.args == (404,), "expected error is not raised."
 
 
 def test_name() -> None:
