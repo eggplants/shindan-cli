@@ -82,7 +82,7 @@ shindan = "shindan_cli.main:main"
 
 [tool.taskipy.tasks]
 setup = "poetry install && pre-commit install -t pre-commit -t pre-push"
-test = "pytest --cov=getjump --cov-report=term"
+test = "pytest --cov=shindan_cli --cov-report=term"
 "test:ci" = "task test --cov-report=xml:cov.xml"
 lint = "pre-commit run -a"
 profile = "python -m cProfile"
