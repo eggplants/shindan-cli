@@ -64,8 +64,11 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
         raise ShindanError(s.status_code)
 
     source = BeautifulSoup(s.text, features="lxml")
+
+    # _token, shindanName, hiddenName=, type=name
     params = {i["name"]: i["value"] for i in source.find_all("input")[1:4]}
     params["shindanName"] = shindan_name
+    params["type"] = "name"
 
     login = session.post(url, data=params, headers=headers)
     if wait:
