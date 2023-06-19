@@ -13,13 +13,7 @@ def test_no_args(capfd: pytest.CaptureFixture[str]) -> None:
         main(test=[])
     captured = capfd.readouterr()
     assert not captured.out
-    assert captured.err == "\n".join(
-        [
-            "usage: shindan [-h] [-w] [-H] [-l] [-V] ID NAME",
-            "shindan: error: the following arguments are required: ID, NAME",
-            "",
-        ],
-    )
+    assert captured.err == "usage: shindan [-h] [-w] [-H] [-l] [-V] ID NAME\nshindan: error: the following arguments are required: ID, NAME\n"
     assert e.value.args == (2,)
 
 
@@ -34,13 +28,7 @@ def test_no_name(capfd: pytest.CaptureFixture[str]) -> None:
         main(test=["1036646"])
     captured = capfd.readouterr()
     assert not captured.out
-    assert captured.err == "\n".join(
-        [
-            "usage: shindan [-h] [-w] [-H] [-l] [-V] ID NAME",
-            "shindan: error: the following arguments are required: NAME",
-            "",
-        ],
-    )
+    assert captured.err == "usage: shindan [-h] [-w] [-H] [-l] [-V] ID NAME\nshindan: error: the following arguments are required: NAME\n"
     assert e.value.args == (2,)
 
 
