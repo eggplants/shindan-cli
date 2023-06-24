@@ -5,7 +5,6 @@ from __future__ import annotations
 import random
 import time
 from typing import TypedDict
-from urllib.parse import parse_qs, unquote, urlparse
 
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -65,33 +64,31 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
 
     source = BeautifulSoup(s.text, features="lxml")
 
-    # _token, shindanName, hiddenName=, type=name
-    params = {i["name"]: i["value"] for i in source.find_all("input")[1:4]}
+    # q, _token, shindanName, hiddenName, type, shindan_token, q
+    params = {i["name"]: i["value"] for i in source.find_all("input")[1:5]}
+
+    # overwrite shindanName
     params["shindanName"] = shindan_name
-    params["type"] = "name"
 
     login = session.post(url, data=params, headers=headers)
     if wait:
         time.sleep(random.uniform(2, 5))  # noqa: S311
 
     soup = BeautifulSoup(login.text, features="lxml")
-    result_tag = soup.find(class_="flex-fill")
+    result_tag = soup.find(id="share-copytext-shindanresult-textarea")
 
-    if not isinstance(result_tag, Tag) or not result_tag.has_attr("href"):
+    if not isinstance(result_tag, Tag) or not result_tag.text:
         msg = f"Could not find a tag contains the result, returns: {result_tag}"
         raise ShindanError(msg)
 
-    parsed_url = urlparse(str(result_tag["href"]))
-    *results, hashtag, shindan_url = unquote(
-        parse_qs(parsed_url.query)["text"][0],
-    ).split("\n")
+    *results, hashtag, shindan_url, _ = result_tag.text.split("\n")
 
     if not results[-1]:
         results.pop(-1)
 
     return {
         "results": results,
-        "hashtags": hashtag.split(" "),
+        "hashtags": hashtag.split("\xa0"),
         "shindan_url": shindan_url,
     }
 
