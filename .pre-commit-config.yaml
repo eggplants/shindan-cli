@@ -47,7 +47,7 @@ repos:
   - id: ruff
     args: [--fix]
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.4.0
+  rev: v1.4.1
   hooks:
   - id: mypy
     files: ^shindan_cli/
