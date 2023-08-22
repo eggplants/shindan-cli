@@ -8,7 +8,7 @@ from shindan_cli import ShindanError, shindan
 
 test_data: list[tuple[int, int]] = [
     (1036646, 3),  # general
-    (1160508, 13),  # with image
+    (962461, 13),  # with image
     (1160535, 4),  # with graph
 ]
 
