@@ -42,6 +42,7 @@ def shindan(page_id: int, shindan_name: str, *, wait: bool | None = False) -> Sh
     Raises
     ------
     ShindanError
+
     """
     headers = {
         "User-Agent": (
