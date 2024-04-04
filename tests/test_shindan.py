@@ -9,7 +9,7 @@ from shindan_cli import ShindanError, shindan
 test_data: list[tuple[int, int]] = [
     (1036646, 3),  # general
     (962461, 2),  # with image
-    (1160535, 4),  # with graph
+    (1195323, 1),  # with graph
 ]
 
 
@@ -28,7 +28,7 @@ def test_invalid_id() -> None:
 
 
 def test_name() -> None:
-    res = shindan(1160535, "hoge")
+    res = shindan(857999, "hoge")
     assert "hoge" in res["results"][0], "name is not working."
 
 
