@@ -18,7 +18,9 @@ def test_site_download(page_id: int, lines: int) -> None:
     res = shindan(page_id, "hoge")
     assert len(res["results"]) == lines, "invalid length of results"
     assert "#shindanmaker" in res["hashtags"], "invalid hashtags"
-    assert res["shindan_url"] == f"https://shindanmaker.com/{page_id}", "invalid shindan url"
+    assert (
+        res["shindan_url"] == f"https://shindanmaker.com/{page_id}"
+    ), "invalid shindan url"
 
 
 def test_invalid_id() -> None:

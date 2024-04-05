@@ -1,5 +1,3 @@
-# poetry self add poetry-bumpversion
-
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = [
@@ -23,10 +21,10 @@ description = "ShindanMaker (https://shindanmaker.com) CLI"
 keywords = ["shindanmaker", "cli"]
 license = "MIT"
 name = "shindan_cli"
-packages = [{include = "shindan_cli"}]
+packages = [{ include = "shindan_cli" }]
 readme = "README.md"
 repository = "https://github.com/eggplants/shindan-cli"
-version = "1.3.0"
+version = "0"
 
 [tool.poetry.dependencies]
 beautifulsoup4 = "^4.11.2"
@@ -48,21 +46,16 @@ types-requests = "^2.28.11.14"
 shindan = "shindan_cli.main:main"
 
 [tool.black]
-line-length = 120
 target-version = ['py39']
 
-[tool.ruff]
+[tool.ruff.lint]
 ignore = [
   "D203", # 1 blank line required before class docstring
   "D213", # Multi-line docstring summary should start at the second line
 ]
-line-length = 120
 select = ["ALL"]
 
-[tool.ruff.mccabe]
-max-complexity = 18
-
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*.py" = [
   "D",
   "S101", # Use of assert detected
@@ -77,7 +70,8 @@ python_version = "3.9"
 show_error_codes = true
 strict = true
 
-[tool.poetry_bumpversion.file."shindan_cli/__init__.py"]
+[tool.poetry-version-plugin]
+source = "init"
 
 [tool.taskipy.tasks]
 lint = "pre-commit run -a"

@@ -8,24 +8,44 @@ from pprint import pprint
 from . import __version__, shindan
 
 
-def _check_natural(v: str) -> int:
+def __check_natural(v: str) -> int:
     if int(v) < 0:
         raise argparse.ArgumentTypeError("%s is an invalid natural int" % v)
     return int(v)
 
 
-def _parse_args(*, test: list[str] | None = None) -> argparse.Namespace:
+def __parse_args(*, test: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="shindan",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description="ShindanMaker (https://shindanmaker.com) CLI",
     )
-    parser.add_argument("page_id", metavar="ID", type=_check_natural, help="shindan page id")
+    parser.add_argument(
+        "page_id",
+        metavar="ID",
+        type=__check_natural,
+        help="shindan page id",
+    )
     parser.add_argument("shindan_name", metavar="NAME", type=str, help="shindan name")
     parser.add_argument("-w", "--wait", action="store_true", help="insert random wait")
-    parser.add_argument("-H", "--hashtag", action="store_true", help="add hashtag `#shindanmaker`")
-    parser.add_argument("-l", "--link", action="store_true", help="add link to last of output")
-    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument(
+        "-H",
+        "--hashtag",
+        action="store_true",
+        help="add hashtag `#shindanmaker`",
+    )
+    parser.add_argument(
+        "-l",
+        "--link",
+        action="store_true",
+        help="add link to last of output",
+    )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
 
     # secret option!
     parser.add_argument("--debug", action="store_true", help=argparse.SUPPRESS)
@@ -36,8 +56,14 @@ def _parse_args(*, test: list[str] | None = None) -> argparse.Namespace:
 
 
 def main(*, test: list[str] | None = None) -> None:
-    """Run CLI."""
-    args = _parse_args(test=test)
+    """Run the shindan CLI.
+
+    Args:
+    ----
+        test (list[str] | None, optional): test arguments. Defaults to None.
+
+    """
+    args = __parse_args(test=test)
     result = shindan(args.page_id, args.shindan_name, wait=args.wait)
 
     if args.debug:
