@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from textwrap import dedent
 from time import time
 
 import pytest
@@ -79,3 +80,60 @@ def test_wait() -> None:
     main(test=["1036646", "hoge", "-w"])
     t3 = time()
     assert t3 - t2 > t2 - t1, "waiting is not working."
+
+
+def test_ai() -> None:
+    with pytest.raises(NotImplementedError) as e:
+        main(test=["1202169", "hoge"])
+    assert e.value.args == ("ai",), "expected error is not raised."
+
+
+def test_branch(
+    capfd: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    i = ["0"]
+    monkeypatch.setattr("builtins.input", lambda _: i.pop())
+    main(test=["1201948", "hoge"])
+    captured = capfd.readouterr()
+    assert (
+        captured.out
+        == dedent(
+            """
+        [Q. 可愛いのが異常なくらい大好き ]
+        > 0: はい
+        > 1: いいえ
+        ［あなたは…「ゆめかわ女子」］
+        ・おっちょこちょい系
+        ・こだわりが強い
+        ・嘘は苦手
+        """,  # noqa: RUF001
+        ).lstrip()
+    )
+    assert not captured.err
+
+
+def test_check(
+    capfd: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    i = ["0"]
+    monkeypatch.setattr("builtins.input", lambda _: i.pop())
+    main(test=["1201960", "hoge"])
+    captured = capfd.readouterr()
+    assert (
+        captured.out
+        == dedent(
+            """
+        = 1/1 =
+        obahann
+        ===
+        > 0: はい
+        > 1: いいえ
+        1/1点
+        [obahann]
+        obahan
+        """,
+        ).lstrip()
+    )
+    assert not captured.err

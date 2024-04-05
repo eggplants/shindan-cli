@@ -126,9 +126,10 @@ def get_choices(source: BeautifulSoup) -> dict[int, str]:
         current_question = question_choices[current_question_id]
         choices = current_question["choices"]
         print(  # noqa: T201
-            f"= {current_question_id}/{total_questions} =\n",
-            current_question["question"],
-            "\n===",
+            f"= {current_question_id}/{total_questions} =",
+            current_question["question"].strip(),
+            "===",
+            sep="\n",
         )
         for idx, choice in enumerate(choices):
             print(f"> {idx}:", choice["label"])  # noqa: T201
