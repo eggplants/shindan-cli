@@ -10,12 +10,16 @@ if TYPE_CHECKING:
     from .models import QuestionBranch, QuestionChoice, UserInput, UserInputs
 
 
-def get_user_inputs(source: BeautifulSoup) -> UserInputs:
+def get_user_inputs(
+    source: BeautifulSoup,
+    shindan_name: str,
+) -> UserInputs:
     """Get user inputs from the shindan source.
 
     Args:
     ----
         source (BeautifulSoup): The source of the shindan page.
+        shindan_name (str): The name of the shindan.
 
     Returns:
     -------
@@ -29,6 +33,12 @@ def get_user_inputs(source: BeautifulSoup) -> UserInputs:
             user_inputs[f"user_input_{idx + 1}"] = {"q": "", "a": None}
             continue
         question_text = question.text
+        if question_text == "あなたの名前":
+            user_inputs[f"user_input_{idx + 1}"] = {
+                "q": question_text,
+                "a": shindan_name,
+            }
+            continue
         answer_text = None
         while not answer_text:
             answer_text = input(f"[{question_text}]: ").strip()
@@ -142,3 +152,10 @@ def get_choices(source: BeautifulSoup) -> dict[int, str]:
             answers[current_question_id] = choices[selected_id]["choice_id"]
             current_question_id += 1
     return answers
+
+
+__all__ = (
+    "get_choices",
+    "get_rbr",
+    "get_user_inputs",
+)

@@ -80,8 +80,6 @@ def shindan(
         time.sleep(random.uniform(2, 5))  # noqa: S311
 
     if shindan_type == "ai":
-        raise NotImplementedError(shindan_type)
-
         hashtag_title = source.select_one("h1#shindanTitle")
         if not hashtag_title or not isinstance(
             hashtag := hashtag_title.get("data-shindan_hashtag"),
@@ -91,7 +89,7 @@ def shindan(
         return get_result_by_ai(
             session,
             params,
-            user_inputs=get_user_inputs(source),
+            user_inputs=get_user_inputs(source, shindan_name),
             hashtag=hashtag,
             shindan_url=shindan_url,
         )

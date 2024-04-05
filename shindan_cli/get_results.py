@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Union
 
 from bs4 import BeautifulSoup, Tag
 
-from shindan_cli.constants import HEADERS
+from .constants import BASE_URL, HEADERS
 
 if TYPE_CHECKING:
     from requests import Session
@@ -71,11 +71,29 @@ def get_result_by_ai(
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
-    session.post(
-        f"{shindan_url}/ai_life_update",
-        data={"ai_life": 3},
+    res = session.post(
+        shindan_url,
+        data=params,
         headers=HEADERS,
     )
+    meta = BeautifulSoup(
+        res.text,
+        features="lxml",
+    ).select_one('meta[name="csrf-token"]')
+    if not res.ok or not meta or not isinstance(csrf_token := meta.get("content"), str):
+        msg = f"Failed to get the csrf token. ({res.status_code})"
+        raise ValueError(msg)
+    HEADERS.update({"x-csrf-token": csrf_token})
+    if not res.ok:
+        res = session.post(
+            f"{BASE_URL}/ai_life_update",
+            data={"ai_life": 3},
+            headers=HEADERS,
+        )
+        if not res.ok:
+            msg = f"Failed to update AI life. ({res.status_code})"
+            raise ValueError(msg)
+
     result_sse = session.post(
         f"{shindan_url}/ai_result",
         json={
@@ -86,7 +104,7 @@ def get_result_by_ai(
         headers=HEADERS,
     )
     gpt_results = "".join(
-        re.findall(r'^\s+"content": "(.*)"$', result_sse.text),
+        re.findall(r'"content":"([^"]+)', result_sse.text),
     ).split("\n")
     return {
         "results": gpt_results,
@@ -164,3 +182,11 @@ def get_result_by_name(
 
     """
     return __get_result(session, params, shindan_url=shindan_url)
+
+
+__all__ = (
+    "get_result_by_ai",
+    "get_result_by_branch",
+    "get_result_by_check",
+    "get_result_by_name",
+)

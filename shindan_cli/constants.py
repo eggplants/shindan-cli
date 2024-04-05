@@ -15,3 +15,9 @@ HEADERS = {
         "(KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     ),
 }
+
+__all__ = (
+    "TARGET_KEYS_BY_TYPE",
+    "BASE_URL",
+    "HEADERS",
+)

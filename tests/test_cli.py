@@ -82,10 +82,16 @@ def test_wait() -> None:
     assert t3 - t2 > t2 - t1, "waiting is not working."
 
 
-def test_ai() -> None:
-    with pytest.raises(NotImplementedError) as e:
-        main(test=["1202169", "hoge"])
-    assert e.value.args == ("ai",), "expected error is not raised."
+def test_ai(
+    capfd: pytest.CaptureFixture[str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    i = ["適当"]
+    monkeypatch.setattr("builtins.input", lambda _: i.pop())
+    main(test=["1202021", "hoge"])
+    captured = capfd.readouterr()
+    assert len(captured.out.strip()) > 0
+    assert not captured.err
 
 
 def test_branch(
