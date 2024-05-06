@@ -10,7 +10,7 @@ from . import __version__, shindan
 
 def __check_natural(v: str) -> int:
     if int(v) < 0:
-        raise argparse.ArgumentTypeError("%s is an invalid natural int" % v)
+        raise argparse.ArgumentTypeError(f"{v!r} is an invalid natural int")
     return int(v)
 
 
