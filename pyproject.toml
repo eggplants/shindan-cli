@@ -4,9 +4,10 @@ requires = [
   "poetry-core",
 ]
 
-[tool]
 [tool.poetry]
-authors = ["eggplants <w10776e8w@yahoo.co.jp>"]
+authors = [
+  "eggplants <w10776e8w@yahoo.co.jp>",
+]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: MIT License",
@@ -18,10 +19,15 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 description = "ShindanMaker (https://shindanmaker.com) CLI"
-keywords = ["shindanmaker", "cli"]
+keywords = [
+  "shindanmaker",
+  "cli",
+]
 license = "MIT"
 name = "shindan_cli"
-packages = [{ include = "shindan_cli" }]
+packages = [
+  { include = "shindan_cli" },
+]
 readme = "README.md"
 repository = "https://github.com/eggplants/shindan-cli"
 version = "0"
@@ -46,17 +52,19 @@ types-requests = "^2.28.11.14"
 shindan = "shindan_cli.main:main"
 
 [tool.black]
-target-version = ['py39']
+target-version = [
+  'py39',
+]
 
-[tool.ruff.lint]
-ignore = [
+[tool.ruff]
+lint.select = [
+  "ALL",
+]
+lint.ignore = [
   "D203", # 1 blank line required before class docstring
   "D213", # Multi-line docstring summary should start at the second line
 ]
-select = ["ALL"]
-
-[tool.ruff.lint.per-file-ignores]
-"tests/*.py" = [
+lint.per-file-ignores."tests/*.py" = [
   "D",
   "S101", # Use of assert detected
 ]
@@ -69,6 +77,8 @@ pretty = true
 python_version = "3.9"
 show_error_codes = true
 strict = true
+
+[tool]
 
 [tool.poetry-version-plugin]
 source = "init"
