@@ -88,7 +88,7 @@ def test_ai(
 ) -> None:
     i = ["適当"]
     monkeypatch.setattr("builtins.input", lambda _: i.pop())
-    main(test=["1202021", "hoge"])
+    main(test=["1165388", "hoge"])
     captured = capfd.readouterr()
     assert len(captured.out.strip()) > 0
     assert not captured.err
