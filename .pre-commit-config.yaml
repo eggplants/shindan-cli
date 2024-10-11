@@ -1,16 +1,6 @@
 ci:
   autoupdate_schedule: monthly
 repos:
-- repo: local
-  hooks:
-  - id: test
-    name: test
-    entry: poetry run task test
-    stages:
-    - push
-    language: system
-    pass_filenames: false
-    always_run: true
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.6.0
   hooks:
