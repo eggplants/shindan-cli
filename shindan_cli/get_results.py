@@ -98,7 +98,7 @@ def get_result_by_ai(
         f"{shindan_url}/ai_result",
         json={
             "form_values": user_inputs,
-            "shindan_token": params["shindan_token"],
+            "shindan_token": params["_token"],
             "ai_result_request_times": 0,
         },
         headers=HEADERS,
