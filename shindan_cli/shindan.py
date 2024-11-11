@@ -5,8 +5,9 @@ from __future__ import annotations
 import random
 import time
 
+import cloudscraper  # type: ignore[import-not-found]
 from bs4 import BeautifulSoup
-from requests import Session, codes
+from requests import codes
 
 from .constants import BASE_URL, HEADERS, TARGET_KEYS_BY_TYPE
 from .get_results import (
@@ -55,7 +56,7 @@ def shindan(
         raise ShindanError(msg)
     shindan_url = f"{BASE_URL}/{page_id}"
 
-    session = Session()
+    session = cloudscraper.create_scraper()
 
     shindan_page = session.get(shindan_url, headers=HEADERS)
     if shindan_page.status_code != codes.ok:

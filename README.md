@@ -6,10 +6,11 @@
   <https://github.com/eggplants/shindan-cli/actions/workflows/release.yml>
 ) [![PyPI](
     <https://img.shields.io/pypi/v/shindan-cli?color=blue>
-  ) ![PyPI - Python Version](
+)](
+  <https://pypi.org/project/shindan-cli>
+) [![PyPI - Python Version](
     <https://img.shields.io/pypi/pyversions/shindan-cli>
-  )
-](
+  )](
   <https://pypi.org/project/shindan-cli>
 )
 
