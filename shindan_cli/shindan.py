@@ -74,8 +74,8 @@ def shindan(
         for key in TARGET_KEYS_BY_TYPE[shindan_type]
         if (key_input := source.select_one(f'input[name="{key}"]'))
     }
-    # overwrite shindanName
-    params["shindanName"] = shindan_name
+    # overwrite randname (old: shindanName)
+    params["randname"] = shindan_name
 
     if wait:
         time.sleep(random.uniform(2, 5))  # noqa: S311

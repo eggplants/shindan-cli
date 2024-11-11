@@ -30,8 +30,8 @@ def test_invalid_id() -> None:
 
 
 def test_name() -> None:
-    res = shindan(857999, "hoge")
-    assert "hoge" in res["results"][0], "name is not working."
+    res = shindan(1224370, "hoge")
+    assert any("hoge" in result for result in res["results"]), "name is not working."
 
 
 def test_wait() -> None:

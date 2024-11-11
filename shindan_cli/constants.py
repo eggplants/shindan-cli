@@ -1,10 +1,10 @@
 """Constants for the shindan CLI."""
 
 TARGET_KEYS_BY_TYPE = {
-    "ai": ("_token", "shindanName", "type", "shindan_token"),
-    "branch": ("_token", "shindanName", "hiddenName", "type", "shindan_token", "rbr"),
-    "check": ("_token", "shindanName", "hiddenName", "type", "shindan_token"),
-    "name": ("_token", "shindanName", "hiddenName", "type", "shindan_token"),
+    "ai": ("_token", "randname", "type", "shindan_token"),
+    "branch": ("_token", "randname", "hiddenName", "type", "shindan_token", "rbr"),
+    "check": ("_token", "randname", "hiddenName", "type", "shindan_token"),
+    "name": ("_token", "randname", "hiddenName", "type", "shindan_token"),
 }
 
 BASE_URL = "https://shindanmaker.com"
