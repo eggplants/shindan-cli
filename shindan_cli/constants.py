@@ -17,7 +17,7 @@ HEADERS = {
 }
 
 __all__ = (
-    "TARGET_KEYS_BY_TYPE",
     "BASE_URL",
     "HEADERS",
+    "TARGET_KEYS_BY_TYPE",
 )

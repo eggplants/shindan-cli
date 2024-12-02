@@ -47,9 +47,9 @@ class UserInput(TypedDict):
 UserInputs = dict[str, UserInput]
 
 __all__ = (
-    "ShindanResult",
     "QuestionBranch",
     "QuestionChoice",
+    "ShindanResult",
     "UserInput",
     "UserInputs",
 )
