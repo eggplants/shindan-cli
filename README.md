@@ -19,11 +19,11 @@
 )
 
 [![Maintainability](
-  <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/maintainability>
+  <https://api.codeclimate.com/v1/badges/2c8b647d6c3753ed8bd5/maintainability>
 )](
   <https://codeclimate.com/github/eggplants/shindan-cli/maintainability>
 ) [![Test Coverage](
-  <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/test_coverage>
+  <https://api.codeclimate.com/v1/badges/2c8b647d6c3753ed8bd5/test_coverage>
 )](
   <https://codeclimate.com/github/eggplants/shindan-cli/test_coverage>
 )
