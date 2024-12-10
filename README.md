@@ -18,7 +18,7 @@
   <https://pypi.org/project/shindan-cli>
 )
 
-<!-- [![Maintainability](
+[![Maintainability](
   <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/maintainability>
 )](
   <https://codeclimate.com/github/eggplants/shindan-cli/maintainability>
@@ -26,7 +26,7 @@
   <https://api.codeclimate.com/v1/badges/9134b56a4241e91dfa01/test_coverage>
 )](
   <https://codeclimate.com/github/eggplants/shindan-cli/test_coverage>
-) -->
+)
 
 ShindanMaker (診断メーカー, <https://shindanmaker.com>) CLI + Library
 
