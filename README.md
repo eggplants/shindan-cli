@@ -110,43 +110,43 @@ MIT
 
 - C#
   - [misodengaku/ShindanMaker](https://github.com/misodengaku/ShindanMaker)
-    - Library
+    - Library (Unmaintained)
 - Go
   - [kakakaya/goshindan](https://github.com/kakakaya/goshindan)
-    - Library + CLI
+    - Library + CLI (Archived)
     - <https://pkg.go.dev/github.com/kakakaya/goshindan>
 - Java
   - [shibafu528/shindan4j](https://github.com/shibafu528/shindan4j)
-    - Library
+    - Library (Unmaintained)
     - <https://jitpack.io/#shibafu528/shindan4j>
 - JavaScript
   - [asawo/shindan-scraper](https://github.com/asawo/shindan-scraper)
-    - Library
+    - Library (Unmaintained)
   - [stawberri/shindan](https://github.com/stawberri/shindan)
     - Library (Archived)
     - <https://www.npmjs.com/package/shindan>
 - Perl
   - [Likk/WebService-ShindanMaker](https://github.com/Likk/WebService-ShindanMaker)
-    - Library
+    - Library (Unmaintained)
 - PHP
   - [moroya/php-shindanmaker](https://github.com/moroya/php-shindanmaker)
-    - Library
+    - Library (Unmaintained)
     - <https://packagist.org/packages/moroya/php-shindanmaker>
 - Python
   - [Le96/auto_shindanmaker](https://github.com/Le96/auto_shindanmaker)
-    - Bot Server
+    - Bot Server (Unmaintained)
   - [tanitanin/shindan-python](https://github.com/tanitanin/shindan-python)
-    - CLI (Script)
+    - CLI (Unmaintained)
 - Ruby
   - [osak/shindanmaker](https://github.com/osak/shindanmaker)
-    - [Mikutter](https://github.com/mikutter/mikutter) Plugin
+    - [Mikutter](https://github.com/mikutter/mikutter) Plugin (Unmaintained)
   - [gouf/shindan](https://github.com/gouf/shindan)
-    - Library
+    - Library (Unmaintained)
   - [ikaruga777/shindan-cli](https://github.com/ikaruga777/shindan-cli)
-    - CLI
+    - CLI (Unmaintained)
   - [yasuhito/shindan](https://github.com/yasuhito/shindan)
-    - CLI
+    - CLI (Unmaintained)
     - <https://rubygems.org/gems/shindan>
 - TypeScript
   - [dqn/shindanmaker-js](https://github.com/dqn/shindanmaker-js)
-    - Library
+    - Library (Archived)
