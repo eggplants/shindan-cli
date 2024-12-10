@@ -28,7 +28,13 @@
   <https://codeclimate.com/github/eggplants/shindan-cli/test_coverage>
 ) -->
 
-ShindanMaker (<https://shindanmaker.com>) CLI
+ShindanMaker (診断メーカー, <https://shindanmaker.com>) CLI + Library
+
+Supported types of diagnosis:
+- [Name-based diagnosis (名前診断)](https://shindanmaker.com/list/name)
+- [Branching diagnosis (分岐診断)](https://shindanmaker.com/list/branch)
+- [AI diagnosis (AI診断)](https://shindanmaker.com/list/ai)
+- [Check Diagnosis (チェック診断)](https://shindanmaker.com/list/check)
 
 ## Install
 
