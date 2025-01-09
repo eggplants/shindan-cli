@@ -81,9 +81,6 @@ python_version = "3.9"
 show_error_codes = true
 strict = true
 
-[tool.poetry-version-plugin]
-source = "init"
-
 [tool.taskipy.tasks]
 lint = "pre-commit run -a"
 profile = "python -m cProfile"
