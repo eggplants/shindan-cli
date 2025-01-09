@@ -9,7 +9,7 @@ on:
     - v*
 env:
   PYTHON_VERSION: '3.11'
-  PROJECT_NAME: my_best_python_project
+  PROJECT_NAME: shindan-cli
 
 jobs:
   release:
@@ -37,7 +37,6 @@ jobs:
       uses: JRubics/poetry-publish@v2.0
       with:
         pypi_token: ${{ secrets.PYPI_TOKEN }}
-        plugins: poetry-version-plugin
   ghcr:
     needs: release
     runs-on: ubuntu-latest

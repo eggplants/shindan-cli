@@ -1,43 +1,48 @@
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = [
-  "poetry-core",
+  "poetry-core>=2",
 ]
 
-[tool.poetry]
-authors = [
-  "eggplants <w10776e8w@yahoo.co.jp>",
+[project]
+name = "shindan-cli"
+version = "2.1.0"
+description = "ShindanMaker (https://shindanmaker.com) CLI"
+readme = "README.md"
+keywords = [
+  "cli",
+  "shindanmaker",
 ]
+license = { text = "MIT" }
+authors = [
+  { name = "eggplants", email = "w10776e8w@yahoo.co.jp" },
+]
+requires-python = ">=3.9,<4"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: MIT License",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
-  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Typing :: Typed",
 ]
-description = "ShindanMaker (https://shindanmaker.com) CLI"
-keywords = [
-  "shindanmaker",
-  "cli",
+dependencies = [
+  "beautifulsoup4>=4.12.3,<5",
+  "cloudscraper>=1.2.71,<2",
+  "lxml>=5.3,<6",
+  "requests>=2.32.3,<3",
 ]
-license = "MIT"
-name = "shindan_cli"
+urls.Repository = "https://github.com/eggplants/shindan-cli"
+scripts.shindan = "shindan_cli.main:main"
+
+[tool.poetry]
+requires-poetry = ">=2.0"
 packages = [
   { include = "shindan_cli" },
 ]
-readme = "README.md"
-repository = "https://github.com/eggplants/shindan-cli"
-version = "0"
-
-[tool.poetry.dependencies]
-beautifulsoup4 = "^4.11.2"
-lxml = ">=4.9.2,<6.0.0"
-python = ">=3.9,<4"
-requests = "^2.28.2"
-cloudscraper = "^1.2.71"
 
 [tool.poetry.group.dev.dependencies]
 lxml-stubs = ">=0.4,<0.6"
@@ -49,8 +54,8 @@ taskipy = "^1.10.3"
 types-beautifulsoup4 = "^4.11.6.7"
 types-requests = "^2.28.11.14"
 
-[tool.poetry.scripts]
-shindan = "shindan_cli.main:main"
+[tool.poetry.requires-plugins]
+poetry-plugin-shell = ">=1.0"
 
 [tool.black]
 target-version = [
@@ -70,16 +75,11 @@ lint.per-file-ignores."tests/*.py" = [
   "S101", # Use of assert detected
 ]
 
-[tool.isort]
-profile = "black"
-
 [tool.mypy]
 pretty = true
 python_version = "3.9"
 show_error_codes = true
 strict = true
-
-[tool]
 
 [tool.poetry-version-plugin]
 source = "init"
