@@ -6,14 +6,17 @@
       "version": "latest",
       "installTools": false,
       "installJupyterlab": false,
-      "toolsToInstall": "black,mypy"
+      "toolsToInstall": "mypy"
     },
-    "ghcr.io/devcontainers/features/common-utils:2": {},
-    "ghcr.io/devcontainers-contrib/features/poetry:2": {},
+    "ghcr.io/va-h/devcontainers-features/uv:1": {},
     "ghcr.io/devcontainers-contrib/features/shfmt:1": {},
-    "ghcr.io/dhoeric/features/hadolint:1": {}
+    "ghcr.io/dhoeric/features/hadolint:1": {},
+    "ghcr.io/michidk/devcontainers-features/typos:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    }
   },
-  "postCreateCommand": "sh .devcontainer/postCreateCommand.sh",
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh",
   "remoteUser": "vscode",
   "containerUser": "vscode",
   "customizations": {
@@ -38,14 +41,13 @@
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",
         "python.defaultInterpreterPath": "./.venv/bin/python",
-        "workbench.colorTheme": "Default Dark Modern",
         "[python]": {
           "editor.formatOnSave": true,
           "editor.codeActionsOnSave": {
             "source.fixAll": "explicit",
             "source.organizeImports": "explicit"
           },
-          "editor.defaultFormatter": "ms-python.black-formatter"
+          "editor.defaultFormatter": "charliermarsh.ruff"
         }
       }
     }

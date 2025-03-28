@@ -19,13 +19,13 @@
 )
 
 [![Maintainability](
-  <https://api.codeclimate.com/v1/badges/2c8b647d6c3753ed8bd5/maintainability>
-)](
-  <https://codeclimate.com/github/eggplants/shindan-cli/maintainability>
-) [![Test Coverage](
-  <https://api.codeclimate.com/v1/badges/2c8b647d6c3753ed8bd5/test_coverage>
-)](
-  <https://codeclimate.com/github/eggplants/shindan-cli/test_coverage>
+  <https://qlty.sh/badges/9e2de2a6-51c0-4797-bc60-da4a2ff28737/maintainability.svg>
+  )](
+  <https://qlty.sh/gh/eggplants/projects/shindan-cli>
+) [![Code Coverage](
+  <https://qlty.sh/badges/9e2de2a6-51c0-4797-bc60-da4a2ff28737/test_coverage.svg>
+  )](
+  <https://qlty.sh/gh/eggplants/projects/shindan-cli>
 )
 
 ShindanMaker (診断メーカー, <https://shindanmaker.com>) CLI + Library

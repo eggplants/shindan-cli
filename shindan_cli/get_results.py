@@ -59,7 +59,6 @@ def get_result_by_ai(
     """Get result by AI type shindan.
 
     Args:
-    ----
         session (Session): session object
         params (Params): input parameters fetched from shindan page
         user_inputs (UserInputs): user inputs
@@ -67,7 +66,6 @@ def get_result_by_ai(
         shindan_url (str): shindan url
 
     Returns:
-    -------
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
@@ -122,13 +120,11 @@ def get_result_by_branch(
     """Get result by branch type shindan.
 
     Args:
-    ----
         session (Session): session object
         params (Params): input parameters fetched from shindan page
         shindan_url (str): shindan url
 
     Returns:
-    -------
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
@@ -145,14 +141,12 @@ def get_result_by_check(
     """Get result by check type shindan.
 
     Args:
-    ----
         session (Session): session object
         params (Params): input parameters fetched from shindan page
         user_choices (dict[int, str]): choices inputted by user on terminal
         shindan_url (str): shindan url
 
     Returns:
-    -------
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
@@ -171,13 +165,11 @@ def get_result_by_name(
     """Get result by name type shindan.
 
     Args:
-    ----
         session (Session): session object
         params (Params): input parameters fetched from shindan page
         shindan_url (str): shindan url
 
     Returns:
-    -------
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """

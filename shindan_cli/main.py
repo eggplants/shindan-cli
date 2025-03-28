@@ -60,7 +60,6 @@ def main(*, test: list[str] | None = None) -> None:
     """Run the shindan CLI.
 
     Args:
-    ----
         test (list[str] | None, optional): test arguments. Defaults to None.
 
     """

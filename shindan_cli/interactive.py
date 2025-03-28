@@ -17,12 +17,10 @@ def get_user_inputs(
     """Get user inputs from the shindan source.
 
     Args:
-    ----
         source (BeautifulSoup): The source of the shindan page.
         shindan_name (str): The name of the shindan.
 
     Returns:
-    -------
         UserInputs: The user inputs.
 
     """
@@ -50,11 +48,9 @@ def get_rbr(source: BeautifulSoup) -> str:
     """Get the result of the shindan from the source.
 
     Args:
-    ----
         source (BeautifulSoup): The source of the shindan page.
 
     Returns:
-    -------
         str: The result of the shindan.
 
     """
@@ -107,11 +103,9 @@ def get_choices(source: BeautifulSoup) -> dict[int, str]:
     """Get the choices from the shindan source.
 
     Args:
-    ----
         source (BeautifulSoup): The source of the shindan page.
 
     Returns:
-    -------
         dict[int, str]: The choices.
 
     """

@@ -5,7 +5,7 @@ from __future__ import annotations
 import random
 import time
 
-import cloudscraper  # type: ignore[import-not-found]
+import cloudscraper  # type: ignore[unused-ignore,import-not-found,import-untyped]
 from bs4 import BeautifulSoup
 from requests import codes
 
@@ -32,23 +32,19 @@ def shindan(
 ) -> ShindanResult:
     """Get the shindan result from <https://shindanmaker.com>.
 
-    Parameters
-    ----------
-    page_id : int
-        shindan page id (e.g. `1036646`)
-    shindan_name : str
-        shindan name (e.g. your name)
-    wait : bool | None, optional
-        enable random waits while fetching shindan data, by default False
+    Args:
+        page_id : int
+            shindan page id (e.g. `1036646`)
+        shindan_name : str
+            shindan name (e.g. your name)
+        wait : bool | None, optional
+            enable random waits while fetching shindan data, by default False
 
-    Returns
-    -------
-    ShindanResult
-        the returned result from <https://shindanmaker.com>
+    Returns:
+        ShindanResult: the returned result from <https://shindanmaker.com>
 
-    Raises
-    ------
-    ShindanError
+    Raises:
+        ShindanError
 
     """
     if not isinstance(page_id, int) or page_id < 0:
