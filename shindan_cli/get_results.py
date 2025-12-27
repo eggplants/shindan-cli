@@ -98,6 +98,7 @@ def get_result_by_ai(
             "form_values": user_inputs,
             "shindan_token": params["_token"],
             "ai_result_request_times": 0,
+            "encrypted_exec_key": params["encrypted_exec_key"],
         },
         headers=HEADERS,
     )
