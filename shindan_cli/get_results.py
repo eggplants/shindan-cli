@@ -7,14 +7,14 @@ from typing import TYPE_CHECKING, Union
 
 from bs4 import BeautifulSoup, Tag
 
-from .constants import BASE_URL, HEADERS
+from .constants import BASE_URL, HEADERS, AIParams, BranchParams, CheckParams, NameParams
 
 if TYPE_CHECKING:
     from requests import Session
 
     from .models import ShindanResult, UserInputs
 
-Params = dict[str, Union[str, list[str], None]]
+Params = Union[AIParams, BranchParams, CheckParams, NameParams]
 
 
 def __get_result(
@@ -50,7 +50,7 @@ def __get_result(
 
 def get_result_by_ai(
     session: Session,
-    params: Params,
+    params: AIParams,
     *,
     user_inputs: UserInputs,
     hashtag: str | None,
@@ -114,7 +114,7 @@ def get_result_by_ai(
 
 def get_result_by_branch(
     session: Session,
-    params: Params,
+    params: BranchParams,
     *,
     shindan_url: str,
 ) -> ShindanResult:
@@ -134,7 +134,7 @@ def get_result_by_branch(
 
 def get_result_by_check(
     session: Session,
-    params: Params,
+    params: CheckParams,
     *,
     user_choices: dict[int, str],
     shindan_url: str,
@@ -152,7 +152,7 @@ def get_result_by_check(
 
     """
     for choice_id, answer_id in user_choices.items():
-        params[f"input-check-choice[{choice_id}]"] = answer_id
+        params[f"input-check-choice[{choice_id}]"] = answer_id  # type: ignore[literal-required]
 
     return __get_result(session, params, is_renewal=True, shindan_url=shindan_url)
 

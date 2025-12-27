@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 import time
+from typing import cast
 
 import cloudscraper  # type: ignore[unused-ignore,import-not-found,import-untyped]
 from bs4 import BeautifulSoup
@@ -11,6 +12,7 @@ from requests import codes
 
 from .constants import BASE_URL, HEADERS, TARGET_KEYS_BY_TYPE
 from .get_results import (
+    Params,
     get_result_by_ai,
     get_result_by_branch,
     get_result_by_check,
@@ -65,18 +67,21 @@ def shindan(
         msg = "Cannot detect shindan type!"
         raise ValueError(msg)
     shindan_type = str(shindan_type_input.get("value"))
-    params = {
-        key: key_input.get("value")
-        for key in TARGET_KEYS_BY_TYPE[shindan_type]
-        if (key_input := source.select_one(f'input[name="{key}"]'))
-    }
+    params = cast(
+        "Params",
+        {
+            key: key_input.get("value")
+            for key in TARGET_KEYS_BY_TYPE[shindan_type]
+            if (key_input := source.select_one(f'input[name="{key}"]'))
+        },
+    )
     # overwrite randname (old: shindanName)
     params["randname"] = shindan_name
 
     if wait:
         time.sleep(random.uniform(2, 5))  # noqa: S311
 
-    if shindan_type == "ai":
+    if params["type"] == "ai":
         hashtag_title = source.select_one("h1#shindanTitle")
         if not hashtag_title or not isinstance(
             hashtag := hashtag_title.get("data-shindan_hashtag"),
@@ -90,21 +95,21 @@ def shindan(
             hashtag=hashtag,
             shindan_url=shindan_url,
         )
-    if shindan_type == "branch":
+    if params["type"] == "branch":
         params["rbr"] = get_rbr(source)
         return get_result_by_branch(
             session,
             params,
             shindan_url=shindan_url,
         )
-    if shindan_type == "check":
+    if params["type"] == "check":
         return get_result_by_check(
             session,
             params,
             user_choices=get_choices(source),
             shindan_url=shindan_url,
         )
-    if shindan_type == "name":
+    if params["type"] == "name":
         return get_result_by_name(
             session,
             params,
