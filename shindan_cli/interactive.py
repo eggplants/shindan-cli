@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from shindan_cli.models import QuestionBranchChoice, QuestionChoiceChoice, UserInput, QuestionBranch, QuestionChoice
+
 if TYPE_CHECKING:
     from bs4 import BeautifulSoup
 
-    from .models import QuestionBranch, QuestionChoice, UserInput, UserInputs
+    from .models import UserInputs
 
 
 def get_user_inputs(
@@ -28,19 +30,16 @@ def get_user_inputs(
     form_labels = source.select("form#shindanForm > div.px-3 > div > span")
     for idx, question in enumerate([*form_labels, *range(10 - len(form_labels))]):
         if isinstance(question, int):
-            user_inputs[f"user_input_{idx + 1}"] = {"q": "", "a": None}
+            user_inputs[f"user_input_{idx + 1}"] = UserInput({"q": "", "a": None})
             continue
         question_text = question.text
         if question_text == "あなたの名前":
-            user_inputs[f"user_input_{idx + 1}"] = {
-                "q": question_text,
-                "a": shindan_name,
-            }
+            user_inputs[f"user_input_{idx + 1}"] = UserInput({"q": question_text, "a": shindan_name})
             continue
         answer_text = None
         while not answer_text:
             answer_text = input(f"[{question_text}]: ").strip()
-        user_inputs["user_input_{idx + 1}"] = {"q": question_text, "a": answer_text}
+        user_inputs[f"user_input_{idx + 1}"] = UserInput({"q": question_text, "a": answer_text})
     return user_inputs
 
 
@@ -60,17 +59,21 @@ def get_rbr(source: BeautifulSoup) -> str:
         question = branch.select_one("p.shindan_branch_question")
         if not isinstance(branch_id, str) or not question:
             continue
-        question_branches[branch_id.replace("shindan_branch_", "")] = {
-            "question": question.text.strip(),
-            "choices": [
-                {
-                    "label": choice.text,
-                    "next_branch_id": next_branch_id,
-                }
-                for choice in branch.select("button")
-                if isinstance(next_branch_id := choice.get("data-next_branch"), str)
-            ],
-        }
+        question_branches[branch_id.replace("shindan_branch_", "")] = QuestionBranch(
+            {
+                "question": question.text.strip(),
+                "choices": [
+                    QuestionBranchChoice(
+                        {
+                            "label": choice.text,
+                            "next_branch_id": next_branch_id,
+                        }
+                    )
+                    for choice in branch.select("button")
+                    if isinstance(next_branch_id := choice.get("data-next_branch"), str)
+                ],
+            }
+        )
 
     goal_branches: dict[str, str] = {}
     for branch in source.select("div[id^='shindan_branch_'][data-kind='1']"):
@@ -115,14 +118,16 @@ def get_choices(source: BeautifulSoup) -> dict[int, str]:
         question_text = question.select_one("div > p > span")
         if not isinstance(order_id, str) or not question_text:
             continue
-        question_choices[int(order_id)] = {
-            "question": question_text.text.strip(),
-            "choices": [
-                {"label": choice.text.strip(), "choice_id": choice_key}
-                for choice in question.select("button.list-group-item")
-                if isinstance(choice_key := choice.get("data-choice_key"), str)
-            ],
-        }
+        question_choices[int(order_id)] = QuestionChoice(
+            {
+                "question": question_text.text.strip(),
+                "choices": [
+                    QuestionChoiceChoice({"label": choice.text.strip(), "choice_id": choice_key})
+                    for choice in question.select("button.list-group-item")
+                    if isinstance(choice_key := choice.get("data-choice_key"), str)
+                ],
+            }
+        )
     current_question_id = 1
     total_questions = len(question_choices)
     answers: dict[int, str] = {}

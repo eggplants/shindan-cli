@@ -13,12 +13,11 @@ keywords = [
 ]
 license = { text = "MIT" }
 authors = [ { name = "eggplants", email = "w10776e8w@yahoo.co.jp" } ]
-requires-python = ">=3.9,<4"
+requires-python = ">=3.10,<4"
 classifiers = [
   "Development Status :: 3 - Alpha",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -39,20 +38,17 @@ scripts.shindan = "shindan_cli.main:main"
 
 [dependency-groups]
 dev = [
-  "lxml-stubs>=0.4,<0.6",
-  "mypy>=1.13,<2",
-  "pre-commit>=4.0.1,<5",
-  "pytest>=7.2.2,<9",
-  "pytest-cov>=4,<8",
-  "taskipy>=1.10.3,<2",
-  "types-beautifulsoup4>=4.11.6.7,<5",
-  "types-requests>=2.28.11.14,<3",
+  "pymarkdownlnt>=0.9.33",
+  "pyproject-fmt>=2.11.1",
+  "pytest>=9.0.2",
+  "pytest-asyncio>=1.3",
+  "pytest-cov>=7",
 ]
-docs = [ "pdoc" ]
+docs = [
+  "pdoc>=16",
+]
 
 [tool.hatch.version]
-# tool.hatch.version.source is not listed in official schema.
-# https://github.com/ninoseki/uv-dynamic-versioning/issues/21
 source = "uv-dynamic-versioning"
 
 [tool.hatch.build.targets.sdist]
@@ -62,42 +58,29 @@ include = [ "shindan_cli" ]
 include = [ "shindan_cli" ]
 
 [tool.uv]
+preview = true
 default-groups = [
   "dev",
   "docs",
 ]
+exclude-newer = "P7D"
 
 [tool.ruff]
 line-length = 120
 format.indent-style = "space"
 format.quote-style = "double"
-lint.select = [
-  "ALL",
-]
+lint.select = [ "ALL" ]
 lint.ignore = [
-  "D203", # 1 blank line required before class docstring
-  "D213", # Multi-line docstring summary should start at the second line
+  "COM812",
+  "D203",   # 1 blank line required before class docstring
+  "D213",   # Multi-line docstring summary should start at the second line
 ]
 lint.per-file-ignores."tests/*.py" = [
   "D",
   "S101", # Use of assert detected
 ]
 
-[tool.mypy]
-pretty = true
-python_version = "3.9"
-show_error_codes = true
-strict = true
-
 [tool.uv-dynamic-versioning]
 vcs = "git"
 style = "semver"
 fallback-version = "0.0.0"
-
-[tool.taskipy.tasks]
-lint = "pre-commit run -a"
-profile = "python -m cProfile"
-setup = "poetry install && pre-commit install -t pre-commit -t pre-push"
-test = "pytest --cov=shindan_cli --cov-report=term"
-"test:ci" = "task test --cov-report=xml:cov.xml"
-gendoc = "pdoc shindan_cli -o ./docs --docformat google"

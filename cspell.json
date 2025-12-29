@@ -1,0 +1,51 @@
+{
+  "language": "en_US",
+  "words": [
+    "Anson",
+    "asyncio",
+    "beautifulsoup",
+    "capfd",
+    "charliermarsh",
+    "cloudscraper",
+    "cooldown",
+    "copytext",
+    "docformat",
+    "gruntfuggly",
+    "hoge",
+    "hverlin",
+    "junitxml",
+    "KHTML",
+    "lxml",
+    "obahan",
+    "obahann",
+    "pdoc",
+    "pipefail",
+    "pymarkdown",
+    "pymarkdownlnt",
+    "pyproject",
+    "pytest",
+    "PYTHONUNBUFFERED",
+    "randname",
+    "sdist",
+    "shindan",
+    "shindanmaker",
+    "shindanresult",
+    "tombi",
+    "venv"
+  ],
+  "dictionaries": [
+    "companies",
+    "markdown",
+    "misc",
+    "softwareTerms",
+    "useCompounds"
+  ],
+  "ignorePaths": [
+    ".gitignore",
+    ".cspell.json"
+  ],
+  "features": {
+    "weighted-suggestions": true
+  },
+  "useGitignore": true
+}

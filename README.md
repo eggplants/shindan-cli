@@ -1,9 +1,9 @@
 # shindan-cli
 
-[![Test](
-  <https://github.com/eggplants/shindan-cli/actions/workflows/test.yml/badge.svg>
+[![CI](
+  <https://github.com/eggplants/shindan-cli/actions/workflows/ci.yml/badge.svg>
 )](
-  <https://github.com/eggplants/shindan-cli/actions/workflows/test.yml>
+  <https://github.com/eggplants/shindan-cli/actions/workflows/ci.yml>
 ) [![Release Package](
   <https://github.com/eggplants/shindan-cli/actions/workflows/release.yml/badge.svg>
 )](
@@ -16,16 +16,6 @@
     <https://img.shields.io/pypi/pyversions/shindan-cli>
   )](
   <https://pypi.org/project/shindan-cli>
-)
-
-[![Maintainability](
-  <https://qlty.sh/badges/9e2de2a6-51c0-4797-bc60-da4a2ff28737/maintainability.svg>
-  )](
-  <https://qlty.sh/gh/eggplants/projects/shindan-cli>
-) [![Code Coverage](
-  <https://qlty.sh/badges/9e2de2a6-51c0-4797-bc60-da4a2ff28737/test_coverage.svg>
-  )](
-  <https://qlty.sh/gh/eggplants/projects/shindan-cli>
 )
 
 ShindanMaker (診断メーカー, <https://shindanmaker.com>) CLI + Library

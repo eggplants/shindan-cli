@@ -8,7 +8,7 @@ from typing import cast
 
 import cloudscraper  # type: ignore[unused-ignore,import-not-found,import-untyped]
 from bs4 import BeautifulSoup
-from requests import codes
+from requests.sessions import Session
 
 from .constants import BASE_URL, HEADERS, TARGET_KEYS_BY_TYPE
 from .get_results import (
@@ -55,9 +55,10 @@ def shindan(
     shindan_url = f"{BASE_URL}/{page_id}"
 
     session = cloudscraper.create_scraper()
+    assert isinstance(session, Session)
 
     shindan_page = session.get(shindan_url, headers=HEADERS)
-    if shindan_page.status_code != codes.ok:
+    if shindan_page.status_code != 200:
         raise ShindanError(shindan_page.status_code)
 
     source = BeautifulSoup(shindan_page.text, features="lxml")
