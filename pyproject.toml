@@ -1,6 +1,5 @@
 [build-system]
 build-backend = "hatchling.build"
-
 requires = [ "hatchling", "uv-dynamic-versioning" ]
 
 [project]
@@ -11,7 +10,7 @@ keywords = [
   "cli",
   "shindanmaker",
 ]
-license = { text = "MIT" }
+license = "MIT"
 authors = [ { name = "eggplants", email = "w10776e8w@yahoo.co.jp" } ]
 requires-python = ">=3.10,<4"
 classifiers = [
@@ -32,7 +31,6 @@ dependencies = [
   "lxml>=5.3,<7",
   "requests>=2.32.3,<3",
 ]
-
 urls.Repository = "https://github.com/eggplants/shindan-cli"
 scripts.shindan = "shindan_cli.main:main"
 
@@ -48,22 +46,19 @@ docs = [
   "pdoc>=16",
 ]
 
-[tool.hatch.version]
-source = "uv-dynamic-versioning"
-
-[tool.hatch.build.targets.sdist]
-include = [ "shindan_cli" ]
-
-[tool.hatch.build.targets.wheel]
-include = [ "shindan_cli" ]
+[tool.hatch]
+build.targets.sdist.include = [ "shindan_cli" ]
+build.targets.wheel.include = [ "shindan_cli" ]
+version.source = "uv-dynamic-versioning"
 
 [tool.uv]
-preview = true
+python-downloads = "never"
 default-groups = [
   "dev",
   "docs",
 ]
 exclude-newer = "P7D"
+preview = true
 
 [tool.ruff]
 line-length = 120

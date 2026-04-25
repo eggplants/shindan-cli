@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union, cast
 
 from bs4 import BeautifulSoup, Tag
 
@@ -151,8 +151,9 @@ def get_result_by_check(
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
+    check_params = cast(dict[str, str], params)
     for choice_id, answer_id in user_choices.items():
-        params[f"input-check-choice[{choice_id}]"] = answer_id  # type: ignore[literal-required]
+        check_params[f"input-check-choice[{choice_id}]"] = answer_id
 
     return __get_result(session, params, is_renewal=True, shindan_url=shindan_url)
 
