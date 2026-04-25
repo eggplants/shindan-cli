@@ -27,7 +27,7 @@ def get_user_inputs(
 
     """
     user_inputs: dict[str, UserInput] = {}
-    form_labels = source.select("form#shindanForm > div.px-3 > div > span")
+    form_labels = source.select("form#shindanForm label")
     for idx, question in enumerate([*form_labels, *range(10 - len(form_labels))]):
         if isinstance(question, int):
             user_inputs[f"user_input_{idx + 1}"] = UserInput({"q": "", "a": None})

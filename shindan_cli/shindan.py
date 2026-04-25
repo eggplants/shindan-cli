@@ -89,11 +89,16 @@ def shindan(
             str,
         ):
             hashtag = None
+        csrf_meta = source.select_one('meta[name="csrf-token"]')
+        if not csrf_meta or not isinstance(csrf_token := csrf_meta.get("content"), str):
+            msg = "Could not find CSRF token on the shindan page."
+            raise ShindanError(msg)
         return get_result_by_ai(
             session,
             params,
             user_inputs=get_user_inputs(source, shindan_name),
             hashtag=hashtag,
+            csrf_token=csrf_token,
             shindan_url=shindan_url,
         )
     if params["type"] == "branch":

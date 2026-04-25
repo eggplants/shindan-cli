@@ -7,34 +7,26 @@ class AIParams(TypedDict):
     _token: str
     randname: str
     type: Literal["ai"]
-    shindan_token: str
     encrypted_exec_key: str
 
 
 class BranchParams(TypedDict):
     _token: str
     randname: str
-    hiddenName: str
     type: Literal["branch"]
-    shindan_token: str
     rbr: str
 
 
 class CheckParams(TypedDict):
     _token: str
     randname: str
-    hiddenName: str
     type: Literal["check"]
-    shindan_token: str
-    # input-check-choice[choice_id]: str
 
 
 class NameParams(TypedDict):
     _token: str
     randname: str
-    hiddenName: str
     type: Literal["name"]
-    shindan_token: str
 
 
 class TargetKeysByType(TypedDict):

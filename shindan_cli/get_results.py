@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import re
+import time
 from typing import TYPE_CHECKING, cast
 
 from bs4 import BeautifulSoup, Tag
 
-from .constants import BASE_URL, HEADERS, AIParams, BranchParams, CheckParams, NameParams
+from .constants import HEADERS, AIParams, BranchParams, CheckParams, NameParams
 
 if TYPE_CHECKING:
     from requests import Session
@@ -15,6 +16,9 @@ if TYPE_CHECKING:
     from .models import ShindanResult, UserInputs
 
 Params = AIParams | BranchParams | CheckParams | NameParams
+
+_MAX_RETRIES = 3
+_RETRY_WAIT = 4.0
 
 
 def __get_result(
@@ -24,15 +28,23 @@ def __get_result(
     is_renewal: bool = False,
     shindan_url: str,
 ) -> ShindanResult:
-    result_page = session.post(
-        shindan_url + ("/r" if is_renewal else ""),
-        data=params,
-        headers=HEADERS,
-    )
-    soup = BeautifulSoup(result_page.text, features="lxml")
-    result_tag = soup.find(id="share-copytext-shindanresult-textarea")
+    result_tag: Tag | None = None
 
-    if not isinstance(result_tag, Tag) or not result_tag.text:
+    for attempt in range(_MAX_RETRIES):
+        if attempt > 0:
+            time.sleep(_RETRY_WAIT)
+        result_page = session.post(
+            shindan_url + ("/r" if is_renewal else ""),
+            data=params,
+            headers=HEADERS,
+        )
+        soup = BeautifulSoup(result_page.text, features="lxml")
+        found = soup.find(id="share-copytext-shindanresult-textarea")
+        if isinstance(found, Tag) and found.text:
+            result_tag = found
+            break
+
+    if result_tag is None:
         msg = f"Could not find a tag contains the result, returns: {result_tag}"
         raise TypeError(msg)
 
@@ -54,6 +66,7 @@ def get_result_by_ai(
     *,
     user_inputs: UserInputs,
     hashtag: str | None,
+    csrf_token: str,
     shindan_url: str,
 ) -> ShindanResult:
     """Get result by AI type shindan.
@@ -63,34 +76,14 @@ def get_result_by_ai(
         params (Params): input parameters fetched from shindan page
         user_inputs (UserInputs): user inputs
         hashtag (str | None): hashtag
+        csrf_token (str): CSRF token extracted from the shindan page
         shindan_url (str): shindan url
 
     Returns:
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
-    res = session.post(
-        shindan_url,
-        data=params,
-        headers=HEADERS,
-    )
-    meta = BeautifulSoup(
-        res.text,
-        features="lxml",
-    ).select_one('meta[name="csrf-token"]')
-    if not res.ok or not meta or not isinstance(csrf_token := meta.get("content"), str):
-        msg = f"Failed to get the csrf token. ({res.status_code})"
-        raise ValueError(msg)
-    HEADERS.update({"x-csrf-token": csrf_token})
-    if not res.ok:
-        res = session.post(
-            f"{BASE_URL}/ai_life_update",
-            data={"ai_life": 3},
-            headers=HEADERS,
-        )
-        if not res.ok:
-            msg = f"Failed to update AI life. ({res.status_code})"
-            raise ValueError(msg)
+    ai_headers = {**HEADERS, "x-csrf-token": csrf_token}
 
     result_sse = session.post(
         f"{shindan_url}/ai_result",
@@ -100,7 +93,7 @@ def get_result_by_ai(
             "ai_result_request_times": 0,
             "encrypted_exec_key": params["encrypted_exec_key"],
         },
-        headers=HEADERS,
+        headers=ai_headers,
     )
     gpt_results = "".join(
         re.findall(r'"content":"([^"]+)', result_sse.text),
