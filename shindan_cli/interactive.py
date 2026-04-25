@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from shindan_cli.models import QuestionBranchChoice, QuestionChoiceChoice, UserInput, QuestionBranch, QuestionChoice
+from shindan_cli.models import QuestionBranch, QuestionBranchChoice, QuestionChoice, QuestionChoiceChoice, UserInput
 
 if TYPE_CHECKING:
     from bs4 import BeautifulSoup
