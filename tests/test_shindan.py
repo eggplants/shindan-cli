@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from time import time
-
 import pytest
 
 from shindan_cli import ShindanError, shindan
@@ -32,10 +30,17 @@ def test_name() -> None:
     assert any("hoge" in result for result in res["results"]), "name is not working."
 
 
-def test_wait() -> None:
-    t1 = time()
+def test_wait(monkeypatch: pytest.MonkeyPatch) -> None:
+    waits = 0
+
+    def count_wait() -> None:
+        nonlocal waits
+        waits += 1
+
+    monkeypatch.setattr("shindan_cli._http.random_wait", count_wait)
+
     shindan(1036646, "hoge", wait=False)
-    t2 = time()
+    assert waits == 0, "waiting is not skipped."
+
     shindan(1036646, "hoge", wait=True)
-    t3 = time()
-    assert t3 - t2 > t2 - t1, "waiting is not working."
+    assert waits == 1, "waiting is not working."

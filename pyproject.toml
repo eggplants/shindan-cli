@@ -47,9 +47,9 @@ docs = [
 ]
 
 [tool.hatch]
-build.targets.sdist.include = [ "shindan_cli" ]
-build.targets.wheel.include = [ "shindan_cli" ]
 version.source = "uv-dynamic-versioning"
+build.targets.wheel.include = [ "shindan_cli" ]
+build.targets.sdist.include = [ "shindan_cli" ]
 
 [tool.uv]
 python-downloads = "never"

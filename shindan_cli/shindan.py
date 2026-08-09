@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import random
-import time
 from typing import cast
 
 import cloudscraper  # type: ignore[unused-ignore,import-not-found,import-untyped]
 from bs4 import BeautifulSoup
 from requests.sessions import Session
 
+from . import _http
+from ._http import request_with_retry
 from .constants import BASE_URL, HEADERS, TARGET_KEYS_BY_TYPE
 from .get_results import (
     Params,
@@ -57,7 +57,7 @@ def shindan(
     session = cloudscraper.create_scraper()
     assert isinstance(session, Session)  # noqa: S101
 
-    shindan_page = session.get(shindan_url, headers=HEADERS)
+    shindan_page = request_with_retry(session, "GET", shindan_url, headers=HEADERS)
     if shindan_page.status_code != 200:  # noqa: PLR2004
         raise ShindanError(shindan_page.status_code)
 
@@ -80,7 +80,7 @@ def shindan(
     params["randname"] = shindan_name
 
     if wait:
-        time.sleep(random.uniform(2, 5))  # noqa: S311
+        _http.random_wait()
 
     if params["type"] == "ai":
         hashtag_title = source.select_one("h1#shindanTitle")

@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, cast
 
 from bs4 import BeautifulSoup, Tag
 
+from ._http import MAX_RETRIES, backoff_wait, request_with_retry
 from .constants import HEADERS, AIParams, BranchParams, CheckParams, NameParams
 
 if TYPE_CHECKING:
@@ -16,9 +17,6 @@ if TYPE_CHECKING:
     from .models import ShindanResult, UserInputs
 
 Params = AIParams | BranchParams | CheckParams | NameParams
-
-_MAX_RETRIES = 3
-_RETRY_WAIT = 4.0
 
 
 def __get_result(
@@ -29,15 +27,19 @@ def __get_result(
     shindan_url: str,
 ) -> ShindanResult:
     result_tag: Tag | None = None
+    status_code = None
 
-    for attempt in range(_MAX_RETRIES):
+    for attempt in range(MAX_RETRIES):
         if attempt > 0:
-            time.sleep(_RETRY_WAIT)
-        result_page = session.post(
+            time.sleep(backoff_wait(attempt - 1))
+        result_page = request_with_retry(
+            session,
+            "POST",
             shindan_url + ("/r" if is_renewal else ""),
             data=params,
             headers=HEADERS,
         )
+        status_code = result_page.status_code
         soup = BeautifulSoup(result_page.text, features="lxml")
         found = soup.find(id="share-copytext-shindanresult-textarea")
         if isinstance(found, Tag) and found.text:
@@ -45,7 +47,7 @@ def __get_result(
             break
 
     if result_tag is None:
-        msg = f"Could not find a tag contains the result, returns: {result_tag}"
+        msg = f"Could not find a tag contains the result, last status code: {status_code}"
         raise TypeError(msg)
 
     *results, hashtag, shindan_url, _ = result_tag.text.split("\n")
@@ -85,7 +87,9 @@ def get_result_by_ai(
     """
     ai_headers = {**HEADERS, "x-csrf-token": csrf_token}
 
-    result_sse = session.post(
+    result_sse = request_with_retry(
+        session,
+        "POST",
         f"{shindan_url}/ai_result",
         json={
             "form_values": user_inputs,

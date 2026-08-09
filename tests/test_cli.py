@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from textwrap import dedent
-from time import time
 
 import pytest
 
@@ -73,13 +72,20 @@ def test_args_with_link_and_hashtags(capfd: pytest.CaptureFixture[str]) -> None:
     assert not captured.err
 
 
-def test_wait() -> None:
-    t1 = time()
+def test_wait(monkeypatch: pytest.MonkeyPatch) -> None:
+    waits = 0
+
+    def count_wait() -> None:
+        nonlocal waits
+        waits += 1
+
+    monkeypatch.setattr("shindan_cli._http.random_wait", count_wait)
+
     main(test=["1036646", "hoge"])
-    t2 = time()
+    assert waits == 0, "waiting is not skipped."
+
     main(test=["1036646", "hoge", "-w"])
-    t3 = time()
-    assert t3 - t2 > t2 - t1, "waiting is not working."
+    assert waits == 1, "waiting is not working."
 
 
 def test_ai(
@@ -109,11 +115,11 @@ def test_branch(
         [Q. 可愛いのが異常なくらい大好き ]
         > 0: はい
         > 1: いいえ
-        ［あなたは…「ゆめかわ女子」］
+        [あなたは…「ゆめかわ女子」]
         ・おっちょこちょい系
         ・こだわりが強い
         ・嘘は苦手
-        """,  # noqa: RUF001
+        """,
         ).lstrip()
     )
     assert not captured.err
