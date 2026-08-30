@@ -44,5 +44,8 @@ shindan_cli/
 
 - **HTML セレクタの脆弱性**: `get_results.py` / `interactive.py` のセレクタは診断メーカーの HTML 構造に依存。サイト変更で壊れる可能性がある
 - **AI 診断の SSE**: `get_result_by_ai` は SSE 形式のレスポンスを正規表現でパース（`get_results.py` 参照）
+- **CSRF トークン**: 診断ページはキャッシュ配信で `_token` / `meta[name=csrf-token]` が空。`GET /csrf-token` から取得して埋める（`shindan.py`）
+- **AI 診断**: Cloudflare Turnstile で保護されており、スクリプトからは `encrypted_exec_key` を取得できない（`test_ai` は xfail）
+- **CI からの実通信**: GitHub Actions の IP は Cloudflare に 403 で弾かれる。`tests/conftest.py` が 403 をスキップに変換する
 - **マジックパラメータ**: `_token`、`rbr` 等のパラメータ名は診断メーカー側の仕様に依存
 - **Python バージョン**: `>=3.10` 必須（`pyproject.toml` 参照）

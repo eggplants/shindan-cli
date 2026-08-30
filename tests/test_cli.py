@@ -7,6 +7,8 @@ import pytest
 from shindan_cli import ShindanError
 from shindan_cli.main import main
 
+from .conftest import skip_if_blocked
+
 
 def test_no_args(capfd: pytest.CaptureFixture[str]) -> None:
     with pytest.raises(SystemExit) as e:
@@ -23,6 +25,7 @@ def test_no_args(capfd: pytest.CaptureFixture[str]) -> None:
 def test_invalid_id() -> None:
     with pytest.raises(ShindanError) as e:
         main(test=["000", "hoge"])
+    skip_if_blocked(e.value)
     assert e.value.args == (404,)
 
 
@@ -88,6 +91,10 @@ def test_wait(monkeypatch: pytest.MonkeyPatch) -> None:
     assert waits == 1, "waiting is not working."
 
 
+@pytest.mark.xfail(
+    reason="AI shindans are now gated behind a Cloudflare Turnstile challenge",
+    strict=False,
+)
 def test_ai(
     capfd: pytest.CaptureFixture[str],
     monkeypatch: pytest.MonkeyPatch,

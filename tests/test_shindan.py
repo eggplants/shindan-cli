@@ -4,6 +4,8 @@ import pytest
 
 from shindan_cli import ShindanError, shindan
 
+from .conftest import skip_if_blocked
+
 test_data: list[tuple[int, int]] = [
     (1036646, 3),  # general
     (962461, 2),  # with image
@@ -22,6 +24,7 @@ def test_site_download(page_id: int, lines: int) -> None:
 def test_invalid_id() -> None:
     with pytest.raises(ShindanError) as e:
         shindan(0, "hoge")
+    skip_if_blocked(e.value)
     assert e.value.args == (404,), "expected error is not raised."
 
 

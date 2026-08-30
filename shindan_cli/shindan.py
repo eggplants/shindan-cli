@@ -26,6 +26,42 @@ class ShindanError(Exception):
     """Error class for shindan-cli."""
 
 
+def __get_csrf_token(session: Session, source: BeautifulSoup) -> str:
+    """Get a CSRF token to submit the shindan form with.
+
+    The shindan pages are served from a cache with their token fields left
+    blank, and the browser fills them in from `/csrf-token` just before
+    submitting the form.
+
+    Args:
+        session (Session): session object
+        source (BeautifulSoup): parsed shindan page
+
+    Returns:
+        str: CSRF token
+
+    Raises:
+        ShindanError
+
+    """
+    csrf_meta = source.select_one('meta[name="csrf-token"]')
+    if csrf_meta and isinstance(token := csrf_meta.get("content"), str) and token:
+        return token
+
+    response = request_with_retry(
+        session,
+        "GET",
+        f"{BASE_URL}/csrf-token",
+        headers={**HEADERS, "X-Requested-With": "XMLHttpRequest"},
+    )
+    if response.status_code != 200:  # noqa: PLR2004
+        raise ShindanError(response.status_code)
+    if not isinstance(token := response.json().get("token"), str) or not token:
+        msg = "Could not find CSRF token on the shindan page."
+        raise ShindanError(msg)
+    return token
+
+
 def shindan(
     page_id: int,
     shindan_name: str,
@@ -78,6 +114,7 @@ def shindan(
     )
     # overwrite randname (old: shindanName)
     params["randname"] = shindan_name
+    params["_token"] = params["_token"] or __get_csrf_token(session, source)
 
     if wait:
         _http.random_wait()
@@ -89,16 +126,12 @@ def shindan(
             str,
         ):
             hashtag = None
-        csrf_meta = source.select_one('meta[name="csrf-token"]')
-        if not csrf_meta or not isinstance(csrf_token := csrf_meta.get("content"), str):
-            msg = "Could not find CSRF token on the shindan page."
-            raise ShindanError(msg)
         return get_result_by_ai(
             session,
             params,
             user_inputs=get_user_inputs(source, shindan_name),
             hashtag=hashtag,
-            csrf_token=csrf_token,
+            csrf_token=params["_token"],
             shindan_url=shindan_url,
         )
     if params["type"] == "branch":
