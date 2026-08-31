@@ -29,7 +29,7 @@ shindan_cli/
 ## コード規約
 
 - **全ファイル**: `from __future__ import annotations` + 型ヒント必須
-- **HTTP**: `cloudscraper`（Cloudflare 回避のため `requests` は直接使わない）
+- **HTTP**: `curl_cffi`（`_http.create_session()` 経由。Cloudflare は TLS/HTTP2 フィンガープリントを見るため、`requests` 等の素の HTTP クライアントは使わない）
 - **非同期**: 使用しない（同期処理のみ）
 - **Lint**: Ruff（`pyproject.toml` で設定済み）。変更後は `mise run ruff` を通すこと
 - **型チェック**: `ty`（`mise run ty`）で確認

@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
-import cloudscraper  # type: ignore[unused-ignore,import-not-found,import-untyped]
 from bs4 import BeautifulSoup
-from requests.sessions import Session
 
 from . import _http
-from ._http import request_with_retry
+from ._http import create_session, request_with_retry, xhr_headers
 from .constants import BASE_URL, HEADERS, TARGET_KEYS_BY_TYPE
 from .get_results import (
     Params,
@@ -21,12 +19,15 @@ from .get_results import (
 from .interactive import get_choices, get_rbr, get_user_inputs
 from .models import ShindanResult
 
+if TYPE_CHECKING:
+    from curl_cffi.requests import Session
+
 
 class ShindanError(Exception):
     """Error class for shindan-cli."""
 
 
-def __get_csrf_token(session: Session, source: BeautifulSoup) -> str:
+def __get_csrf_token(session: Session, source: BeautifulSoup, *, shindan_url: str) -> str:
     """Get a CSRF token to submit the shindan form with.
 
     The shindan pages are served from a cache with their token fields left
@@ -36,6 +37,7 @@ def __get_csrf_token(session: Session, source: BeautifulSoup) -> str:
     Args:
         session (Session): session object
         source (BeautifulSoup): parsed shindan page
+        shindan_url (str): url of the shindan page the token is submitted from
 
     Returns:
         str: CSRF token
@@ -52,7 +54,7 @@ def __get_csrf_token(session: Session, source: BeautifulSoup) -> str:
         session,
         "GET",
         f"{BASE_URL}/csrf-token",
-        headers={**HEADERS, "X-Requested-With": "XMLHttpRequest"},
+        headers=xhr_headers(shindan_url),
     )
     if response.status_code != 200:  # noqa: PLR2004
         raise ShindanError(response.status_code)
@@ -90,8 +92,7 @@ def shindan(
         raise ShindanError(msg)
     shindan_url = f"{BASE_URL}/{page_id}"
 
-    session = cloudscraper.create_scraper()
-    assert isinstance(session, Session)  # noqa: S101
+    session = create_session()
 
     shindan_page = request_with_retry(session, "GET", shindan_url, headers=HEADERS)
     if shindan_page.status_code != 200:  # noqa: PLR2004
@@ -114,7 +115,7 @@ def shindan(
     )
     # overwrite randname (old: shindanName)
     params["randname"] = shindan_name
-    params["_token"] = params["_token"] or __get_csrf_token(session, source)
+    params["_token"] = params["_token"] or __get_csrf_token(session, source, shindan_url=shindan_url)
 
     if wait:
         _http.random_wait()

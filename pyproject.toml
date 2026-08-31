@@ -27,9 +27,8 @@ classifiers = [
 dynamic = [ "version" ]
 dependencies = [
   "beautifulsoup4>=4.12.3,<5",
-  "cloudscraper>=1.2.71,<2",
+  "curl-cffi>=0.16.1,<1",
   "lxml>=5.3,<7",
-  "requests>=2.32.3,<3",
 ]
 urls.Repository = "https://github.com/eggplants/shindan-cli"
 scripts.shindan = "shindan_cli.main:main"

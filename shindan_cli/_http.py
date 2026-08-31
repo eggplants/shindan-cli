@@ -1,4 +1,4 @@
-"""HTTP helpers to cope with rate limiting on <https://shindanmaker.com>."""
+"""HTTP helpers to cope with bot detection and rate limiting on <https://shindanmaker.com>."""
 
 from __future__ import annotations
 
@@ -6,8 +6,12 @@ import random
 import time
 from typing import TYPE_CHECKING, Any
 
+from curl_cffi import requests
+
+from .constants import BASE_URL, HEADERS, IMPERSONATE
+
 if TYPE_CHECKING:
-    from requests import Response, Session
+    from curl_cffi.requests import HttpMethod, Response, Session
 
 TOO_MANY_REQUESTS = 429
 
@@ -16,6 +20,63 @@ INITIAL_WAIT = 2.0
 BACKOFF_FACTOR = 2.0
 
 WAIT_RANGE = (2.0, 5.0)
+
+
+def create_session() -> Session:
+    """Open a session that Cloudflare takes for a browser.
+
+    `curl_cffi` replays Chrome's TLS and HTTP/2 handshake, which is what keeps
+    the site from answering with a `403` bot challenge. An ordinary HTTP client
+    is recognised by that handshake alone, whatever headers it sends.
+
+    Returns:
+        Session: session impersonating a browser
+
+    """
+    return requests.Session(impersonate=IMPERSONATE)
+
+
+def form_headers(referer: str) -> dict[str, str]:
+    """Get the headers a browser sends when submitting a form on a shindan page.
+
+    Args:
+        referer (str): url of the page holding the form
+
+    Returns:
+        dict[str, str]: headers to send alongside the impersonated ones
+
+    """
+    return {
+        **HEADERS,
+        "Origin": BASE_URL,
+        "Referer": referer,
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-User": "?1",
+    }
+
+
+def xhr_headers(referer: str) -> dict[str, str]:
+    """Get the headers a browser sends for the background requests a shindan page makes.
+
+    Args:
+        referer (str): url of the page making the request
+
+    Returns:
+        dict[str, str]: headers to send alongside the impersonated ones
+
+    """
+    return {
+        **HEADERS,
+        "Accept": "application/json, text/plain, */*",
+        "Origin": BASE_URL,
+        "Referer": referer,
+        "X-Requested-With": "XMLHttpRequest",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+    }
 
 
 def random_wait() -> None:
@@ -38,7 +99,7 @@ def backoff_wait(attempt: int) -> float:
 
 def request_with_retry(
     session: Session,
-    method: str,
+    method: HttpMethod,
     url: str,
     **kwargs: Any,  # noqa: ANN401
 ) -> Response:
@@ -50,7 +111,7 @@ def request_with_retry(
 
     Args:
         session (Session): session object
-        method (str): HTTP method
+        method (HttpMethod): HTTP method
         url (str): url to request
         **kwargs (Any): extra arguments passed to `Session.request`
 
@@ -74,6 +135,9 @@ __all__ = (
     "TOO_MANY_REQUESTS",
     "WAIT_RANGE",
     "backoff_wait",
+    "create_session",
+    "form_headers",
     "random_wait",
     "request_with_retry",
+    "xhr_headers",
 )

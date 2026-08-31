@@ -8,11 +8,11 @@ from typing import TYPE_CHECKING, cast
 
 from bs4 import BeautifulSoup, Tag
 
-from ._http import MAX_RETRIES, backoff_wait, request_with_retry
-from .constants import HEADERS, AIParams, BranchParams, CheckParams, NameParams
+from ._http import MAX_RETRIES, backoff_wait, form_headers, request_with_retry, xhr_headers
+from .constants import AIParams, BranchParams, CheckParams, NameParams
 
 if TYPE_CHECKING:
-    from requests import Session
+    from curl_cffi.requests import Session
 
     from .models import ShindanResult, UserInputs
 
@@ -37,7 +37,7 @@ def __get_result(
             "POST",
             shindan_url + ("/r" if is_renewal else ""),
             data=params,
-            headers=HEADERS,
+            headers=form_headers(shindan_url),
         )
         status_code = result_page.status_code
         soup = BeautifulSoup(result_page.text, features="lxml")
@@ -85,7 +85,7 @@ def get_result_by_ai(
         ShindanResult: the returned result from <https://shindanmaker.com>
 
     """
-    ai_headers = {**HEADERS, "x-csrf-token": csrf_token}
+    ai_headers = {**xhr_headers(shindan_url), "x-csrf-token": csrf_token}
 
     result_sse = request_with_retry(
         session,
