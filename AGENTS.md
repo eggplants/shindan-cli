@@ -18,7 +18,7 @@ mise run build         # パッケージビルド
 
 ```
 shindan_cli/
-  main.py         - CLI エントリーポイント (argparse)
+  cli.py          - CLI エントリーポイント (argparse)
   shindan.py      - メインロジック・診断タイプ判別・ShindanError 定義
   get_results.py  - 診断タイプ別の HTTP POST + スクレイピング処理
   interactive.py  - AI/分岐診断における対話型入力処理

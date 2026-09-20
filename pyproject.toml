@@ -46,7 +46,7 @@ dependencies = [
 urls.Documentation = "https://egpl.dev/shindan-cli/"
 urls.Issues = "https://github.com/eggplants/shindan-cli/issues"
 urls.Repository = "https://github.com/eggplants/shindan-cli"
-scripts.shindan = "shindan_cli.main:main"
+scripts.shindan = "shindan_cli.cli:main"
 
 [dependency-groups]
 dev = [

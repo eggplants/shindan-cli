@@ -5,7 +5,7 @@ from textwrap import dedent
 import pytest
 
 from shindan_cli import ShindanError
-from shindan_cli.main import main
+from shindan_cli.cli import main
 
 from .conftest import skip_if_blocked
 

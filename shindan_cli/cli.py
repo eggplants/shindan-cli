@@ -1,4 +1,4 @@
-"""Implements Shindan CLI as a main script."""
+"""Command line entry point for shindan-cli."""
 
 from __future__ import annotations
 
